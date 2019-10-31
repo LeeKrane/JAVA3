@@ -13,7 +13,6 @@ public class Student implements Comparable<Student>
 	private int matrikelnummer;
 	private static List<Integer> verwendeteMatrikelnummern = new LinkedList<>();
 	
-	/*
 	public static void main (String[] args)
 	{
 		Set<Student> students = new TreeSet<>();
@@ -24,7 +23,6 @@ public class Student implements Comparable<Student>
 		System.out.println(verwendeteMatrikelnummern);
 		System.out.println(students);
 	}
-	*/
 	
 	Student (String name, String vorname, int matrikelnummer)
 	{
@@ -38,26 +36,12 @@ public class Student implements Comparable<Student>
 	}
 	
 	@Override
-	public int compareTo (Student other)
-	{
-		return Comparator.comparing(Student::getName).thenComparing(Student::getVorname).compare(this, other);
-	}
-	
-	private String getName ()
-	{
-		return name;
-	}
-	
-	private String getVorname ()
-	{
-		return vorname;
-	}
+	public int compareTo (Student other) { return Comparator.comparing(Student::getName).thenComparing(Student::getVorname).compare(this, other); }
+	private String getName () { return name; }
+	private String getVorname () { return vorname; }
 	
 	@Override
-	public String toString ()
-	{
-		return name + ", " + vorname + " (" + matrikelnummer + ')';
-	}
+	public String toString () { return "Student{Name -> '" + name + "', Vorname -> '" + vorname + "', Matrikelnummer -> '" + matrikelnummer + "'}"; }
 	
 	@Override
 	public boolean equals (Object o)
@@ -71,8 +55,5 @@ public class Student implements Comparable<Student>
 	}
 	
 	@Override
-	public int hashCode ()
-	{
-		return Objects.hash(name, vorname, matrikelnummer);
-	}
+	public int hashCode () { return Objects.hash(name, vorname, matrikelnummer); }
 }

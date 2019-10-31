@@ -20,14 +20,8 @@ public class Diceware
 {
 	public static void main (String[] args)
 	{
-		try
-		{
-			System.out.println(getRandomPassword());
-		}
-		catch (IOException e)
-		{
-			System.err.println(e.getMessage());
-		}
+		try { System.out.println(getRandomPassword()); }
+		catch (IOException e) { System.err.println(e.getMessage()); }
 	}
 	
 	private static String getRandomPassword () throws IOException
@@ -55,8 +49,7 @@ public class Diceware
 		for (int i = 0; i < generatedWords.length; i++)
 		{
 			returnString.append(generatedWords[i]);
-			if (i != generatedWords.length-1)
-				returnString.append(" ");
+			if (i != generatedWords.length-1) returnString.append(" ");
 		}
 		
 		return returnString.toString();
@@ -82,8 +75,7 @@ public class Diceware
 			line = br.readLine();
 			split = new String[2];
 			
-			if (line.matches("(\\d{5})\\s(.+)"))
-				...
+			if (line.matches("(\\d{5})\\s(.+)")) ... (Falls Sie das hier lesen, bitte kontaktieren Sie mich und erinnern Sie mich daran, diese Variante der "getDiveWarePairs" fertigzustellen. MFG LeeKrane.
 		}
 	}
 	*/

@@ -23,12 +23,8 @@ public class Firewall
 					.map(Pattern.compile("([.0-9]*)[\\s]*([.0-9]*).*")::matcher) // erstellt einen Matcher mit einem Regex
 					.filter(Matcher::find) // wirft alle Zeilen die nicht dem Regex entsprechen raus
 					.collect(Collectors.groupingBy(s -> s.group(2), Collectors.mapping(s -> s.group(1), Collectors.toSet()))); // Gruppiert nach Zieladressen (key) und verwandelt die Quelladressen in ein Set (value)
-			
 			System.out.println(adresses);
 		}
-		catch (IOException ioe)
-		{
-			System.err.println(ioe.getMessage());
-		}
+		catch (IOException ioe) { System.err.println(ioe.getMessage()); }
 	}
 }

@@ -30,14 +30,8 @@ public class WasserstandAnalyse
 		LocalDateTime testEndingDate = LocalDateTime.parse("15.06.2009 05:45", df);
 		LocalDateTime actualEndingDate = LocalDateTime.parse("13.07.2009 23:55", df);
 		
-		try
-		{
-			wa.levels = readFromFile("resources/labors/labor07/data_25268_W_MONTH.txt");
-		}
-		catch (IOException e)
-		{
-			System.err.println(e.getMessage());
-		}
+		try { wa.levels = readFromFile("resources/labors/labor07/data_25268_W_MONTH.txt"); }
+		catch (IOException e) { System.err.println(e.getMessage()); }
 		System.out.println("Alle Wasserstände:\n" + wa.levels + '\n');
 		System.out.println("Alle Zeitpunkte mit dem höchsten Wasserstand der ersten 70 Einträge:\n" + wa.highest(startingDate, testEndingDate) + '\n');
 		System.out.println("Durchschnittlicher Wasserstand der ersten 70 Einträge: " + wa.average(startingDate, testEndingDate) + '\n');
@@ -82,17 +76,8 @@ public class WasserstandAnalyse
 		Map<LocalDateTime, Integer> maxValueDates = new TreeMap<>();
 		int maxValue = 0;
 		
-		for (int value : subLevels.values())
-		{
-			if (value > maxValue)
-				maxValue = value;
-		}
-		
-		for (Map.Entry mapEntry : subLevels.entrySet())
-		{
-			if ((int) mapEntry.getValue() == maxValue)
-				maxValueDates.put((LocalDateTime) mapEntry.getKey(), (Integer) mapEntry.getValue());
-		}
+		for (int value : subLevels.values()) { if (value > maxValue) maxValue = value; }
+		for (Map.Entry mapEntry : subLevels.entrySet()) { if ((int) mapEntry.getValue() == maxValue) maxValueDates.put((LocalDateTime) mapEntry.getKey(), (Integer) mapEntry.getValue()); }
 		
 		return maxValueDates;
 	}
@@ -102,8 +87,7 @@ public class WasserstandAnalyse
 		SortedMap<LocalDateTime, Integer> subLevels = new TreeMap<>(levels).subMap(from, to);
 		double averageValue = 0;
 		
-		for (int i : subLevels.values())
-			averageValue += i;
+		for (int i : subLevels.values()) averageValue += i;
 		
 		return averageValue / subLevels.size();
 	}
