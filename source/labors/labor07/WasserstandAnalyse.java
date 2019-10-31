@@ -32,7 +32,7 @@ public class WasserstandAnalyse
 		
 		try
 		{
-			wa.levels = readFromFile("C:\\Data\\IntelliJ\\Projects\\JAVA3\\resources\\labors\\labor07\\data_25268_W_MONTH.txt");
+			wa.levels = readFromFile("resources/labors/labor07/data_25268_W_MONTH.txt");
 		}
 		catch (IOException e)
 		{

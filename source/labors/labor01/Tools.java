@@ -18,12 +18,12 @@ public class Tools
 	{
 		int ret = 0;
 		
-		for (int i = 0; i < a.length; i++)
+		for (int value : a)
 		{
 			if (even)
-				ret += a[i] % 2 == 0 ? a[i] : 0;
+				ret += value % 2 == 0 ? value : 0;
 			else
-				ret += a[i] % 2 == 1 ? a[i] : 0;
+				ret += value % 2 == 1 ? value : 0;
 		}
 		
 		return ret;

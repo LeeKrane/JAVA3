@@ -25,7 +25,7 @@ public class Pair<X, Y>
 		return second;
 	}
 	
-	void setFirst (X first)
+	private void setFirst (X first)
 	{
 		this.first = first;
 	}
