@@ -16,8 +16,8 @@ public class TokenCommons
 	{
 		try
 		{
-			Collection<String> file1 = getTokens("C:\\Data\\IntelliJ\\Projects\\JAVA3\\resources\\labors\\labor04\\tokens1.txt");
-			Collection<String> file2 = getTokens("C:\\Data\\IntelliJ\\Projects\\JAVA3\\resources\\labors\\labor04\\tokens2.txt");
+			Collection<String> file1 = getTokens("resources/labors/labor04/tokens1.txt");
+			Collection<String> file2 = getTokens("resources/labors/labor04/tokens2.txt");
 			file1.retainAll(file2);
 			Set<String> commons = new TreeSet<>(file1);
 			System.out.println(commons);
