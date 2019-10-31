@@ -22,10 +22,7 @@ public class TokenCommons
 			Set<String> commons = new TreeSet<>(file1);
 			System.out.println(commons);
 		}
-		catch (FileNotFoundException fnfe)
-		{
-			System.err.println(fnfe.getMessage());
-		}
+		catch (FileNotFoundException fnfe) { System.err.println(fnfe.getMessage()); }
 	}
 	
 	private static Collection<String> getTokens (String filename) throws FileNotFoundException

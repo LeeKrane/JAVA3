@@ -30,7 +30,7 @@ public class Diceware
 		}
 	}
 	
-	public static String getRandomPassword () throws IOException
+	private static String getRandomPassword () throws IOException
 	{
 		Map<Integer, String> passwordMap = getDiceWarePairs("C:\\Data\\IntelliJ\\Projects\\JAVA3\\resources\\labors\\labor08\\diceware_german.txt");
 		Random random = new Random();
@@ -62,7 +62,7 @@ public class Diceware
 		return returnString.toString();
 	}
 	
-	public static Map<Integer, String> getDiceWarePairs (String fileName) throws IOException
+	private static Map<Integer, String> getDiceWarePairs (String fileName) throws IOException
 	{
 		return Files.lines(Paths.get(fileName))
 				.map(Pattern.compile("(\\d{5})\\s(.+)")::matcher)

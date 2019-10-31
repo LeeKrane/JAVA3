@@ -11,7 +11,7 @@ public class UniqueCharacters
 {
 	private static Map<String, Long> checkedStrings = new HashMap<>();
 	
-	public static long detectDifferentChars (String check)
+	private static long detectDifferentChars (String check)
 	{
 		return checkedStrings.computeIfAbsent(check, str -> str.chars().distinct().count());
 	}

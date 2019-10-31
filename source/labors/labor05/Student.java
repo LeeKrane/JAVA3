@@ -26,7 +26,7 @@ public class Student implements Comparable<Student>
 	}
 	*/
 	
-	public Student (String name, String vorname, int matrikelnummer)
+	Student (String name, String vorname, int matrikelnummer)
 	{
 		if (name == null || vorname == null || name.equals("") || vorname.equals("") || verwendeteMatrikelnummern.contains(matrikelnummer) || !(matrikelnummer >= 100000 && matrikelnummer < 1000000))
 			throw new IllegalArgumentException();
@@ -43,12 +43,12 @@ public class Student implements Comparable<Student>
 		return Comparator.comparing(Student::getName).thenComparing(Student::getVorname).compare(this, other);
 	}
 	
-	public String getName ()
+	private String getName ()
 	{
 		return name;
 	}
 	
-	public String getVorname ()
+	private String getVorname ()
 	{
 		return vorname;
 	}
