@@ -2,5 +2,5 @@
 #### Version: 2019/20
 ##### Email: godfist.leekrane@gmail.com
 In this Repository you will find all the Java Labors and Homeworks from the 3rd Grade, written by me.
-They should all be graded with a 1 or maybe a 2.
-If I ever get graded 3 or below on a Labor/Homework, I will refactor it until it is in the higher league.
+The grading niveau should be in the range of 1 to 2.
+###### If you detect a mistake or know a way to make my programs more efficient, let me know in the Issues tab.

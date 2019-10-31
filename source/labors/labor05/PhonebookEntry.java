@@ -13,9 +13,7 @@ public class PhonebookEntry implements Comparable<PhonebookEntry>
 	
 	PhonebookEntry (String number, String name)
 	{
-		if (!number.matches("^\\+[1-9]\\d+") && !number.matches("^[0]\\d+"))
-			throw new IllegalArgumentException("Falsche Telefonnummereingabe");
-		
+		if (!number.matches("^\\+[1-9]\\d+") && !number.matches("^[0]\\d+")) throw new IllegalArgumentException("Falsche Telefonnummereingabe");
 		this.number = number;
 		this.name = name;
 	}
@@ -30,33 +28,13 @@ public class PhonebookEntry implements Comparable<PhonebookEntry>
 	}
 	
 	@Override
-	public int hashCode ()
-	{
-		return Objects.hash(number);
-	}
+	public int hashCode () { return Objects.hash(number); }
 	
 	@Override
-	public int compareTo (PhonebookEntry other)
-	{
-		return Comparator.comparing(PhonebookEntry::getNumber).thenComparing(PhonebookEntry::getName).compare(this, other);
-	}
+	public int compareTo (PhonebookEntry other) { return Comparator.comparing(PhonebookEntry::getNumber).thenComparing(PhonebookEntry::getName).compare(this, other); }
 	
 	@Override
-	public String toString ()
-	{
-		return "PhonebookEntry{" +
-				"number='" + number + '\'' +
-				", name='" + name + '\'' +
-				'}';
-	}
-	
-	String getNumber ()
-	{
-		return number;
-	}
-	
-	String getName ()
-	{
-		return name;
-	}
+	public String toString () { return "PhonebookEntry{number -> '" +  number + ", name -> '" + name + "'}"; }
+	String getNumber () { return number; }
+	String getName () { return name; }
 }

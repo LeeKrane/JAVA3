@@ -8,15 +8,8 @@ public class Bottle <T extends Drink>
 {
 	private T content;
 	
-	private boolean isEmpty ()
-	{
-		return content == null;
-	}
-	
-	private void fill (T content)
-	{
-		this.content = content;
-	}
+	private boolean isEmpty () { return content == null; }
+	private void fill (T content) { this.content = content; }
 	
 	private T empty ()
 	{
@@ -42,76 +35,33 @@ public class Bottle <T extends Drink>
 	}
 	
 	@Override
-	public String toString ()
-	{
-		return "Bottle{" +
-				"content=" + (isEmpty() ? "empty" : content) +
-				'}';
-	}
+	public String toString () { return "Bottle{content -> " + (isEmpty() ? "None" : content) + '}'; }
 }
 
-abstract class Drink
-{}
-
+abstract class Drink {}
 
 class Beer extends Drink
 {
 	private String brewery;
 	
-	Beer (String brewery)
-	{
-		this.brewery = brewery;
-	}
-	
-	public String getBrewery ()
-	{
-		return brewery;
-	}
+	Beer (String brewery) { this.brewery = brewery; }
+	public String getBrewery () { return brewery; }
 	
 	@Override
-	public String toString ()
-	{
-		return "Beer{" +
-				"brewery='" + brewery + '\'' +
-				'}';
-	}
+	public String toString () { return "Beer{brewery -> '" + brewery + "'}"; }
 }
 
 abstract class Wine extends Drink
 {
 	private String region;
 	
-	Wine (String region)
-	{
-		this.region = region;
-	}
-	
-	public String getRegion ()
-	{
-		return region;
-	}
+	Wine (String region) { this.region = region; }
+	public String getRegion () { return region; }
 	
 	@Override
-	public String toString ()
-	{
-		return this instanceof WhiteWine ? "WhiteWine" : "RedWine" + "{" +
-				"region='" + region + '\'' +
-				'}';
-	}
+	public String toString () { return (this instanceof WhiteWine ? "WhiteWine{" : "RedWine{") + "region -> '" + region + "'}"; }
 }
 
-class WhiteWine extends Wine
-{
-	WhiteWine (String region)
-	{
-		super(region);
-	}
-}
+class WhiteWine extends Wine { WhiteWine (String region) { super(region); } }
 
-class RedWine extends Wine
-{
-	RedWine (String region)
-	{
-		super(region);
-	}
-}
+class RedWine extends Wine { RedWine (String region) { super(region); } }

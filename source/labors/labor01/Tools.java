@@ -20,10 +20,8 @@ public class Tools
 		
 		for (int value : a)
 		{
-			if (even)
-				ret += value % 2 == 0 ? value : 0;
-			else
-				ret += value % 2 == 1 ? value : 0;
+			if (even) ret += value % 2 == 0 ? value : 0;
+			else ret += value % 2 == 1 ? value : 0;
 		}
 		
 		return ret;
@@ -34,8 +32,7 @@ public class Tools
 		String str = s.toUpperCase();
 		int sum = 0;
 		
-		for (int i = 0; i < str.length(); i++)
-			sum += str.charAt(i) - 'A' + 1;
+		for (int i = 0; i < str.length(); i++) sum += str.charAt(i) - 'A' + 1;
 		
 		return sum;
 	}

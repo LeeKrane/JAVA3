@@ -20,81 +20,36 @@ public class Datentraeger
 		System.out.println("Instanzen: " + gesamtAnzahl);
 		
 		dvd.setTitel("Why you should buy - Remnant: From the Ashes!");
-		
 		System.out.println(dvd);
 		
-		try
-		{
-			cd.setPreis(-420.69);
-		}
-		catch (WertNegativException wne)
-		{
-			System.err.println(wne.getMessage());
-		}
+		try { cd.setPreis(-420.69); }
+		catch (WertNegativException wne) { System.err.println(wne.getMessage()); }
 	}
-	
-	/*
-	Datentraeger ()
-	{
-		this("Unknown", 0, 0);
-	}
-	
-	Datentraeger (String titel, double preis)
-	{
-		this(titel, preis, 700);
-	}
-	*/
 	
 	Datentraeger (String titel, double preis, int megaByteGroesse)
 	{
-		if (preis < 0 || megaByteGroesse < 0)
-			throw new WertNegativException("Preis bzw. MegaByteGröße darf nicht negativ sein!");
-		
-		this.setTitel(titel);
-		this.setPreis(preis);
+		if (preis < 0 || megaByteGroesse < 0) throw new WertNegativException("Preis bzw. MegaByteGröße darf nicht negativ sein!");
+		setTitel(titel);
+		setPreis(preis);
 		this.megaByteGroesse = megaByteGroesse;
 		gesamtAnzahl++;
 	}
 	
 	private void setPreis (double preis)
 	{
-		if (preis < 0)
-			throw new WertNegativException("Preis darf nicht negativ sein!");
-		
+		if (preis < 0) throw new WertNegativException("Preis darf nicht negativ sein!");
 		this.preis = preis;
 	}
 	
-	private void setTitel (String titel)
-	{
-		this.titel = titel;
-	}
-	
-	String getTitel ()
-	{
-		return titel;
-	}
-	
-	double getPreis ()
-	{
-		return preis;
-	}
-	
-	int getMegaByteGroesse ()
-	{
-		return megaByteGroesse;
-	}
+	private void setTitel (String titel) { this.titel = titel; }
+	String getTitel () { return titel; }
+	double getPreis () { return preis; }
+	int getMegaByteGroesse () { return megaByteGroesse; }
 }
 
 class CD extends Datentraeger
 {
 	private boolean readOnly;
-	
-	/*
-	CD ()
-	{
-		this("Unknown", 0, 0, false);
-	}
-	*/
 	
 	CD (String titel, double preis, int megaByteGroesse, boolean readOnly)
 	{
@@ -103,23 +58,13 @@ class CD extends Datentraeger
 	}
 	
 	@Override
-	public String toString ()
-	{
-		return "CD: " + super.getTitel() + ", Preis: " + super.getPreis() + ", MegaByteGröße: " + super.getMegaByteGroesse() + (this.readOnly ? ", ReadOnly" : "");
-	}
+	public String toString () { return "CD: " + super.getTitel() + ", Preis: " + super.getPreis() + ", MegaByteGröße: " + super.getMegaByteGroesse() + (this.readOnly ? ", ReadOnly" : ""); }
 }
 
 class DVD extends Datentraeger
 {
 	private boolean readOnly;
 	private char plusOderMinus;
-	
-	/*
-	DVD ()
-	{
-		this("Unknown", 0, 0, false, '+');
-	}
-	*/
 	
 	DVD (String titel, double preis, int megaByteGroesse, boolean readOnly, char plusOderMinus)
 	{
@@ -129,23 +74,7 @@ class DVD extends Datentraeger
 	}
 	
 	@Override
-	public String toString ()
-	{
-		return "DVD" + this.plusOderMinus + ": " + super.getTitel() + ", Preis: " + super.getPreis() + ", MegaByteGröße: " + super.getMegaByteGroesse() + (this.readOnly ? ", ReadOnly" : "");
-	}
+	public String toString () { return "DVD" + this.plusOderMinus + ": " + super.getTitel() + ", Preis: " + super.getPreis() + ", MegaByteGröße: " + super.getMegaByteGroesse() + (this.readOnly ? ", ReadOnly" : ""); }
 }
 
-class WertNegativException extends RuntimeException
-{
-	/*
-	WertNegativException ()
-	{
-		super();
-	}
-	*/
-	
-	WertNegativException (String message)
-	{
-		super(message);
-	}
-}
+class WertNegativException extends RuntimeException { WertNegativException (String message) { super(message); } }

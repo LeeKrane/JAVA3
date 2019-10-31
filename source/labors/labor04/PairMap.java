@@ -23,28 +23,20 @@ public class PairMap <K, V> implements IMap <K, V>
 					return oldVal;
 				}
 			}
-			
 			list.add(new Pair<>(key, value));
 		}
-		else
-			throw new NullPointerException();
+		
+		else throw new NullPointerException();
 		return null;
 	}
 	
 	@Override
 	public V get (K key)
 	{
-		for (int i = 0; i < size(); i++)
-		{
-			if (list.get(i).first() == key)
-				return list.get(i).second();
-		}
+		for (int i = 0; i < size(); i++) { if (list.get(i).first() == key) return list.get(i).second(); }
 		return null;
 	}
 	
 	@Override
-	public int size ()
-	{
-		return list.size();
-	}
+	public int size () { return list.size(); }
 }
