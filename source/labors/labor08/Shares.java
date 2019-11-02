@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.List;
+import java.util.*;
 
 public class Shares
 {
@@ -12,45 +12,77 @@ public class Shares
 	{
 		try
 		{
-			var list = readFromCSV("resources/labors/labor08/stocks.csv");
-			for (int i = 0; i < list.size(); i++)
-			{
-				System.out.println(list.get(i));
-			}
+			var sharesMap = readFromCSV("resources/labors/labor08/stocks.csv");
+			var boughtSharesMap = new HashMap<String, Integer>();
+			int money = 100000;
+			
+			// insert code here
 		}
 		catch (IOException e) { System.out.println(e.getMessage()); }
 	}
 	
-	private static List<GenericVector3<Integer, String, Integer>> readFromCSV (String filepath) throws IOException
+	private static Map<Integer, List<NamePriceVector2>> readFromCSV (String filePath) throws IOException
 	{
-		BufferedReader br = new BufferedReader(new FileReader(new File(filepath)));
+		var sharesMap = new HashMap<Integer, List<NamePriceVector2>>();
+		BufferedReader br = new BufferedReader(new FileReader(new File(filePath)));
 		String line;
-		String[] split;
+		String[] split, usedSplit = new String[3];
 		
-		return null;
+		while (br.ready())
+		{
+			line = br.readLine();
+			if (line.matches("(.+),(\\d),(\\d+)"))
+			{
+				split = line.split(",");
+				
+				if (split.length == 4)
+				{
+					usedSplit[0] = split[0] + ',' + split[1];
+					usedSplit[1] = split[2];
+					usedSplit[2] = split[3];
+				}
+				else
+					usedSplit = split;
+				
+				NamePriceVector2 rpv = new NamePriceVector2(usedSplit[0], Integer.parseInt(usedSplit[2]));
+				if (sharesMap.containsKey(Integer.parseInt(usedSplit[1])))
+				{
+					var list = sharesMap.get(Integer.parseInt(usedSplit[1]));
+					list.add(rpv);
+					sharesMap.put(Integer.parseInt(usedSplit[1]), list);
+				}
+				else
+				{
+					var list = new ArrayList<NamePriceVector2>();
+					list.add(rpv);
+					sharesMap.put(Integer.parseInt(usedSplit[1]), list);
+				}
+			}
+		}
+		return sharesMap;
 	}
 }
 
-class GenericVector3<A, B, C>
+class NamePriceVector2
 {
-	private A a;
-	private B b;
-	private C c;
+	private String name;
+	private int price;
 	
-	public GenericVector3 (A a, B b, C c)
+	NamePriceVector2 (String n, int p)
 	{
-		this.a = a;
-		this.b = b;
-		this.c = c;
+		name = n;
+		price = p;
 	}
 	
 	@Override
 	public String toString ()
 	{
-		return "GenericVector3{" +
-				"a=" + a +
-				", b=" + b +
-				", c=" + c +
+		return "NPV2{" +
+				"name='" + name + '\'' +
+				", price=" + price +
 				'}';
 	}
+	
+	public String getName () { return name; }
+	public int getPrice () { return price; }
 }
