@@ -4,85 +4,112 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.*;
+import java.util.Comparator;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.TreeMap;
 
-public class Shares
+/**
+ * TODO: 04.11.2019 completion of the programs
+ * @author LeeKrane
+ */
+
+public class Shares implements Comparable<Shares>
 {
+	private String companyName;
+	private double priceRatingRatio;
+	private int rating;
+	private int price;
+	
 	public static void main (String[] args)
 	{
 		try
 		{
-			var sharesMap = readFromCSV("resources/labors/labor08/stocks.csv");
-			var boughtSharesMap = new HashMap<String, Integer>();
-			int money = 100000;
+			var sharesQueue = readFromCSV("resources/labors/labor08/stocks.csv");
+			var boughtSharesMap = new TreeMap<Shares, Integer>();
+			int capital = 100000, i;
 			
-			// insert code here
+			// 20% of current capital
+			while (capital > 1 && !sharesQueue.isEmpty())
+			{
+				var share = sharesQueue.poll();
+				i = 1;
+				
+				while (share.price * i < capital / 5) i++;
+				
+				capital -= share.price * i;
+				
+				boughtSharesMap.put(share, i);
+			}
+			
+			/* 20% of max capital
+			int capital = 100000, currentCapital = capital, i;
+			
+			while (currentCapital > 1 && !sharesQueue.isEmpty())
+			{
+				var share = sharesQueue.poll();
+				i = 1;
+				
+				while (share.price * i < capital / 5 && currentCapital > 1)
+				{
+					i++;
+					currentCapital -= share.price;
+				}
+				
+				boughtSharesMap.put(share, i);
+			}
+			 */
+			
+			boughtSharesMap.forEach((s, c) -> System.out.println(s.companyName + ": " + c));
 		}
-		catch (IOException e) { System.out.println(e.getMessage()); }
+		catch (IOException e) { System.err.println(e.getMessage()); }
 	}
 	
-	private static Map<Integer, List<NamePriceVector2>> readFromCSV (String filePath) throws IOException
+	private Shares (String input)
 	{
-		var sharesMap = new HashMap<Integer, List<NamePriceVector2>>();
+		String[] split = input.split(",");
+		rating = Integer.parseInt(split[split.length-2]);
+		price = Integer.parseInt(split[split.length-1]);
+		priceRatingRatio = (double) price / (double) rating;
+		companyName = split[0];
+		if (split.length == 4)
+			companyName += ',' + split[1];
+	}
+	
+	private static Queue<Shares> readFromCSV (String filePath) throws IOException
+	{
+		var sharesQueue = new PriorityQueue<Shares>();
 		BufferedReader br = new BufferedReader(new FileReader(new File(filePath)));
 		String line;
-		String[] split, usedSplit = new String[3];
 		
 		while (br.ready())
 		{
 			line = br.readLine();
 			if (line.matches("(.+),(\\d),(\\d+)"))
-			{
-				split = line.split(",");
-				
-				if (split.length == 4)
-				{
-					usedSplit[0] = split[0] + ',' + split[1];
-					usedSplit[1] = split[2];
-					usedSplit[2] = split[3];
-				}
-				else
-					usedSplit = split;
-				
-				NamePriceVector2 rpv = new NamePriceVector2(usedSplit[0], Integer.parseInt(usedSplit[2]));
-				if (sharesMap.containsKey(Integer.parseInt(usedSplit[1])))
-				{
-					var list = sharesMap.get(Integer.parseInt(usedSplit[1]));
-					list.add(rpv);
-					sharesMap.put(Integer.parseInt(usedSplit[1]), list);
-				}
-				else
-				{
-					var list = new ArrayList<NamePriceVector2>();
-					list.add(rpv);
-					sharesMap.put(Integer.parseInt(usedSplit[1]), list);
-				}
-			}
+				sharesQueue.add(new Shares(line));
 		}
-		return sharesMap;
+		return sharesQueue;
 	}
-}
-
-class NamePriceVector2
-{
-	private String name;
-	private int price;
 	
-	NamePriceVector2 (String n, int p)
+	private double getPriceRatingRatio () { return priceRatingRatio; }
+	private int getRating () { return rating; }
+	private int getPrice () { return price; }
+	
+	@Override
+	public int compareTo (Shares other)
 	{
-		name = n;
-		price = p;
+		//return Comparator.comparing(Shares::getRating).reversed().thenComparing(Shares::getPriceRatingRatio).thenComparing(Shares::getPrice).compare(this, other);
+		return Comparator.comparing(Shares::getPriceRatingRatio).thenComparing(Shares::getPrice).compare(this, other);
 	}
 	
 	@Override
 	public String toString ()
 	{
-		return "NPV2{" +
-				"name='" + name + '\'' +
+		return "SharesV2{" +
+				"companyName='" + companyName + '\'' +
+				", priceRatingRatio=" + priceRatingRatio +
+				", rating=" + rating +
 				", price=" + price +
 				'}';
 	}
-	
-	public String getName () { return name; }
-	public int getPrice () { return price; }
 }
