@@ -27,40 +27,28 @@ public class Shares implements Comparable<Shares>
 		{
 			var sharesQueue = readFromCSV("resources/labors/labor08/stocks.csv");
 			var boughtSharesMap = new TreeMap<Shares, Integer>();
-			int capital = 100000, i;
-			
-			// 20% of current capital
-			while (capital > 1 && !sharesQueue.isEmpty())
-			{
-				var share = sharesQueue.poll();
-				i = 1;
-				
-				while (share.price * i < capital / 5) i++;
-				
-				capital -= share.price * i;
-				
-				boughtSharesMap.put(share, i);
-			}
-			
-			/* 20% of max capital
 			int capital = 100000, currentCapital = capital, i;
 			
-			while (currentCapital > 1 && !sharesQueue.isEmpty())
+			while (currentCapital > 0 && !sharesQueue.isEmpty())
 			{
 				var share = sharesQueue.poll();
 				i = 1;
 				
-				while (share.price * i < capital / 5 && currentCapital > 1)
+				while (share.price * i <= capital / 5 && currentCapital > 1)
 				{
 					i++;
 					currentCapital -= share.price;
 				}
 				
-				boughtSharesMap.put(share, i);
+				if (i > 1)
+					boughtSharesMap.put(share, i-1);
 			}
-			 */
 			
-			boughtSharesMap.forEach((s, c) -> System.out.println(s.companyName + ": " + c));
+			boughtSharesMap.forEach((s, c) -> System.out.println(s.companyName + ": " + c + " Shares"));
+			
+			var s = readFromCSV("resources/labors/labor08/stocks.csv");
+			while (!s.isEmpty())
+				System.out.println(s.poll());
 		}
 		catch (IOException e) { System.err.println(e.getMessage()); }
 	}
@@ -105,11 +93,6 @@ public class Shares implements Comparable<Shares>
 	@Override
 	public String toString ()
 	{
-		return "SharesV2{" +
-				"companyName='" + companyName + '\'' +
-				", priceRatingRatio=" + priceRatingRatio +
-				", rating=" + rating +
-				", price=" + price +
-				'}';
+		return companyName + " -> Rating: " + rating + ", Price: " + price + ", Ratio: " + priceRatingRatio;
 	}
 }
