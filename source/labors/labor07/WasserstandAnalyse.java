@@ -39,9 +39,9 @@ public class WasserstandAnalyse
 		System.out.println("Durchschnittlicher Wasserstand aller Einträge: " + wa.average(startingDate, actualEndingDate) + '\n');
 	}
 	
-	private static Map<LocalDateTime, Integer> readFromFile (String fileName) throws IOException
+	private static Map<LocalDateTime, Integer> readFromFile (String filePath) throws IOException
 	{
-		return Files.lines(Paths.get(fileName))
+		return Files.lines(Paths.get(filePath))
 				.map(Pattern.compile("((\\d{2}\\.){2}\\d{4}\\s\\d{2}:\\d{2})\\s((\\d{2}\\.){2}\\d{4}\\s\\d{2}:\\d{2})\\s(\\d{3})")::matcher)
 				.filter(Matcher::find)
 				.collect(Collectors.toMap(ldt -> LocalDateTime.parse(ldt.group(1), df), i -> Integer.parseInt(i.group(5))));
