@@ -68,9 +68,9 @@ public class PairMapTest
 	public void testPut3() {
 		System.out.println("testPut3");
 		PairMap<Integer, Double> map = new PairMap<>();
-		Double ret = map.put(new Integer(1), 1.1);
+		Double ret = map.put(1, 1.1);
 		assertNull(ret);
-		ret = map.put(new Integer(1), 2.2);
+		ret = map.put(1, 2.2);
 		assertEquals(1.1, ret, 0.0);
 		System.out.println(map);
 	}
