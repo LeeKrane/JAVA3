@@ -10,7 +10,6 @@ import java.util.Queue;
 import java.util.TreeMap;
 
 /**
- * TODO: 04.11.2019 completion of the programs
  * @author LeeKrane
  */
 
@@ -34,7 +33,7 @@ public class Shares implements Comparable<Shares>
 				var share = sharesQueue.poll();
 				i = 1;
 				
-				while (share.price * i <= capital / 5 && currentCapital > 1)
+				while (share.price * i <= capital / 5 && currentCapital - share.price > 0)
 				{
 					i++;
 					currentCapital -= share.price;
@@ -43,12 +42,8 @@ public class Shares implements Comparable<Shares>
 				if (i > 1)
 					boughtSharesMap.put(share, i-1);
 			}
-			
 			boughtSharesMap.forEach((s, c) -> System.out.println(s.companyName + ": " + c + " Shares"));
-			
-			var s = readFromCSV("resources/labors/labor08/stocks.csv");
-			while (!s.isEmpty())
-				System.out.println(s.poll());
+			System.out.println("Leftover Money: " + currentCapital);
 		}
 		catch (IOException e) { System.err.println(e.getMessage()); }
 	}
@@ -62,6 +57,8 @@ public class Shares implements Comparable<Shares>
 		companyName = split[0];
 		if (split.length == 4)
 			companyName += ',' + split[1];
+		if (companyName.contains("\""))
+			companyName = companyName.substring(1, companyName.length()-2);
 	}
 	
 	private static Queue<Shares> readFromCSV (String filePath) throws IOException
