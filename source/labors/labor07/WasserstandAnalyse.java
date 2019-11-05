@@ -1,8 +1,8 @@
 package labors.labor07;
 
-import java.io.BufferedReader; // nur für Non-Fancy Variante
-import java.io.File; // nur für Non-Fancy Variante
-import java.io.FileReader; // nur für Non-Fancy Variante
+import java.io.BufferedReader; // for non-fancy variant
+import java.io.File; // for non-fancy variant
+import java.io.FileReader; // for non-fancy variant
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -47,7 +47,7 @@ public class WasserstandAnalyse
 				.collect(Collectors.toMap(ldt -> LocalDateTime.parse(ldt.group(1), df), i -> Integer.parseInt(i.group(5))));
 	}
 	
-	/* Non-Fancy Variante:
+	/* non-fancy variant:
 	private static Map<LocalDateTime, Integer> readFromFile (String fileName) throws IOException
 	{
 		BufferedReader br = new BufferedReader(new FileReader(new File(fileName)));

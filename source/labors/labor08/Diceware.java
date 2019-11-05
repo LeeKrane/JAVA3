@@ -1,11 +1,12 @@
 package labors.labor08;
 
-import java.io.BufferedReader; // für Non-Fancy Variante
-import java.io.File; // für Non-Fancy Variante
-import java.io.FileReader; // für Non-Fancy Variante
+import java.io.BufferedReader; // for non-fancy variant
+import java.io.File; // for non-fancy variant
+import java.io.FileReader; // for non-fancy variant
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap; // for non-fancy variant
 import java.util.Map;
 import java.util.Random;
 import java.util.regex.Matcher;
@@ -62,10 +63,11 @@ public class Diceware
 				.filter(Matcher::find)
 				.collect(Collectors.toMap(i -> Integer.parseInt(i.group(1)), s -> s.group(2)));
 	}
-
-	/* Non-Fancy Variante: NICHT FERTIG!
+	
+	/* non-fancy variant:
 	public static Map<Integer, String> getDiceWarePairs (String fileName) throws IOException
 	{
+		var diceWarePairs = new HashMap<Integer, String>();
 		BufferedReader br = new BufferedReader(new FileReader(new File(fileName)));
 		String line;
 		String[] split;
@@ -75,8 +77,13 @@ public class Diceware
 			line = br.readLine();
 			split = new String[2];
 			
-			if (line.matches("(\\d{5})\\s(.+)")) ... (Falls Sie das hier lesen, bitte kontaktieren Sie mich und erinnern Sie mich daran, diese Variante der "getDiveWarePairs" fertigzustellen. MFG LeeKrane.
+			if (line.matches("(\\d{5})\\s(.+)"))
+			{
+				split = line.split("\\s");
+				diceWarePairs.put(Integer.parseInt(split[0]), split[1]);
+			}
 		}
+		return diceWarePairs;
 	}
-	*/
+	 */
 }

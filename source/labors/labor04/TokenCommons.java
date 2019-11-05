@@ -33,7 +33,7 @@ public class TokenCommons
 		
 		while (scanner.hasNextLine())
 		{
-			tokensPerLine = scanner.nextLine().split("[\\s,\\.:;?!]+");
+			tokensPerLine = scanner.nextLine().split("[\\s,.:;?!]+");
 			Collections.addAll(tokens, tokensPerLine);
 		}
 		
