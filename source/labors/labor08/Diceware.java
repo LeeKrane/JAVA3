@@ -64,18 +64,17 @@ public class Diceware
 				.collect(Collectors.toMap(i -> Integer.parseInt(i.group(1)), s -> s.group(2)));
 	}
 	
-	/* non-fancy variant:
-	public static Map<Integer, String> getDiceWarePairs (String fileName) throws IOException
+	// non-fancy variant:
+	public static Map<Integer, String> getDiceWarePairs2 (String filePath) throws IOException
 	{
-		var diceWarePairs = new HashMap<Integer, String>();
-		BufferedReader br = new BufferedReader(new FileReader(new File(fileName)));
+		Map<Integer, String> diceWarePairs = new HashMap<>();
+		BufferedReader br = new BufferedReader(new FileReader(new File(filePath)));
 		String line;
 		String[] split;
 		
 		while (br.ready())
 		{
 			line = br.readLine();
-			split = new String[2];
 			
 			if (line.matches("(\\d{5})\\s(.+)"))
 			{
@@ -83,7 +82,7 @@ public class Diceware
 				diceWarePairs.put(Integer.parseInt(split[0]), split[1]);
 			}
 		}
+		
 		return diceWarePairs;
 	}
-	 */
 }

@@ -47,10 +47,10 @@ public class WasserstandAnalyse
 				.collect(Collectors.toMap(ldt -> LocalDateTime.parse(ldt.group(1), df), i -> Integer.parseInt(i.group(5))));
 	}
 	
-	/* non-fancy variant:
-	private static Map<LocalDateTime, Integer> readFromFile (String fileName) throws IOException
+	// non-fancy variant:
+	private static Map<LocalDateTime, Integer> readFromFile2 (String filePath) throws IOException
 	{
-		BufferedReader br = new BufferedReader(new FileReader(new File(fileName)));
+		BufferedReader br = new BufferedReader(new FileReader(new File(filePath)));
 		String line;
 		String[] split;
 		Map<LocalDateTime, Integer> map = new TreeMap<>();
@@ -68,7 +68,6 @@ public class WasserstandAnalyse
 		
 		return map;
 	}
-	 */
 	
 	private Map<LocalDateTime, Integer> highest (LocalDateTime from, LocalDateTime to)
 	{
