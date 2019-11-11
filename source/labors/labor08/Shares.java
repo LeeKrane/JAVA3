@@ -55,11 +55,12 @@ public class Shares implements Comparable<Shares>
 		rating = Integer.parseInt(split[split.length - 2]);
 		price = Integer.parseInt(split[split.length - 1]);
 		priceRatingRatio = (double) price / (double) rating;
-		companyName = split[0];
-		if (split.length == 4)
-			companyName += ',' + split[1];
+		StringBuilder companyNameBuilder = new StringBuilder(split[0]);
+		for (int i = 3; i < split.length; i++)
+			companyNameBuilder.append(',').append(split[i-2]);
+		companyName = companyNameBuilder.toString();
 		if (companyName.contains("\""))
-			companyName = companyName.substring(1, companyName.length() - 2);
+			companyName = companyName.substring(1, companyName.length() - 1);
 	}
 	
 	private static Queue<Shares> readFromCSV (String filePath) throws IOException
