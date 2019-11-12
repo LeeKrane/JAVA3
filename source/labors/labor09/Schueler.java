@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * TODO: Programm fertigstellen
@@ -103,6 +104,16 @@ class SchuelerVerwaltung
 		return schuelerCollection.stream()
 				.filter(schueler -> schueler.getGeschlecht() == geschlecht)
 				.collect(Collectors.toCollection(TreeSet::new));
+	}
+	
+	Set<Schueler> getGeborenBis (LocalDate datum, boolean vorNach)
+	{
+		Stream<Schueler> stream = schuelerCollection.stream();
+		if (vorNach)
+			stream = stream.filter(schueler -> schueler.getGeboren().compareTo(datum) <= 0);
+		else
+			stream = stream.filter(schueler -> schueler.getGeboren().compareTo(datum) >= 0);
+		return stream.collect(Collectors.toSet());
 	}
 	
 	Map<String, Integer> getKlassenAnzahl ()
