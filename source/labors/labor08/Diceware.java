@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
  * @author LeeKrane
  */
 
+
 public class Diceware
 {
 	public static void main (String[] args)
