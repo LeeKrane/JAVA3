@@ -34,8 +34,6 @@ public class Schueler implements Comparable<Schueler> {
 	}
 	
 	static Schueler makeSchueler (String input) {
-		if (!input.matches("\\d\\w{4};(\\w|\\s|[äÖöÜüáß-])+;(\\w|\\s|[äü-])+;\\w;(\\d{2}\\.){2}\\d{4};[\\wäö]+[\\.\\w-]*(\\sA.B.)*"))
-			throw new IllegalArgumentException();
 		return new Schueler(input);
 	}
 	
@@ -94,7 +92,7 @@ class SchuelerVerwaltung {
 	
 	SchuelerVerwaltung (String filePath) throws IOException {
 		schuelerCollection = Files.lines(Paths.get(filePath))
-				.filter(line -> line.matches("\\d\\w{4};(\\w|\\s|[äÖöÜüáß-])+;(\\w|\\s|[äü-])+;\\w;(\\d{2}\\.){2}\\d{4};[\\wäö]+[\\.\\w-]*(\\sA.B.)*"))
+				.skip(1)
 				.map(Schueler::new)
 				.collect(Collectors.toCollection(TreeSet::new));
 	}
@@ -122,7 +120,7 @@ class SchuelerVerwaltung {
 		if (vorNach)
 			schuelerStream = schuelerStream.filter(schueler -> schueler.getGeboren().compareTo(datum) <= 0);
 		else
-			schuelerStream = schuelerStream.filter(schueler -> schueler.getGeboren().compareTo(datum) >= 0);
+			schuelerStream = schuelerStream.filter(schueler -> schueler.getGeboren().compareTo(datum) > 0);
 		return schuelerStream.collect(Collectors.toCollection(TreeSet::new));
 	}
 	
@@ -163,10 +161,10 @@ class SchuelerVerwaltung {
 		Map<LocalDate, Set<String>> geburtstagsListe = new HashMap<>();
 		
 		for (Schueler schueler : schuelerCollection) {
-			if (schueler.getGeboren().getYear() == jahr && !geburtstagsListe.containsKey(schueler.getGeboren()))
+			if (!geburtstagsListe.containsKey(schueler.getGeboren()))
 				geburtstagsListe.put(schueler.getGeboren(), schuelerCollection.stream()
 						.filter(schueler1 -> schueler1.getGeboren() == schueler.getGeboren())
-						.map(Schueler::getName)
+						.map(schueler1 -> String.format("%s %s %s %d", schueler1.getName(), schueler1.getVorname(), schueler1.getKlasse(), LocalDate.now().getYear() - schueler1.getGeboren().getYear()))
 						.collect(Collectors.toCollection(TreeSet::new)));
 		}
 		
