@@ -11,11 +11,11 @@ import java.util.stream.Stream;
 
 /**
  * TODO: Programm fertigstellen
+ *
  * @author LeeKrane
  */
 
-public class Schueler implements Comparable<Schueler>
-{
+public class Schueler implements Comparable<Schueler> {
 	private String klasse;
 	private String name;
 	private String vorname;
@@ -23,8 +23,7 @@ public class Schueler implements Comparable<Schueler>
 	private LocalDate geboren;
 	private String religion;
 	
-	Schueler (String input)
-	{
+	Schueler (String input) {
 		String[] split = input.split(";");
 		klasse = split[0];
 		name = split[1];
@@ -34,16 +33,14 @@ public class Schueler implements Comparable<Schueler>
 		religion = split[5];
 	}
 	
-	static Schueler makeSchueler (String input)
-	{
+	static Schueler makeSchueler (String input) {
 		if (!input.matches("\\d\\w{4};(\\w|\\s|[äÖöÜüáß-])+;(\\w|\\s|[äü-])+;\\w;(\\d{2}\\.){2}\\d{4};[\\wäö]+[\\.\\w-]*(\\sA.B.)*"))
 			throw new IllegalArgumentException();
 		return new Schueler(input);
 	}
 	
 	@Override
-	public boolean equals (Object o)
-	{
+	public boolean equals (Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		Schueler schueler = (Schueler) o;
@@ -54,60 +51,69 @@ public class Schueler implements Comparable<Schueler>
 	}
 	
 	@Override
-	public int hashCode ()
-	{
+	public int hashCode () {
 		return Objects.hash(klasse, name, vorname, geboren);
 	}
 	
-	String getKlasse () { return klasse; }
-	String getName () { return name; }
-	String getVorname () { return vorname; }
-	char getGeschlecht () { return geschlecht; }
-	LocalDate getGeboren () { return geboren; }
-	String getReligion () { return religion; }
+	String getKlasse () {
+		return klasse;
+	}
+	
+	String getName () {
+		return name;
+	}
+	
+	String getVorname () {
+		return vorname;
+	}
+	
+	char getGeschlecht () {
+		return geschlecht;
+	}
+	
+	LocalDate getGeboren () {
+		return geboren;
+	}
+	
+	String getReligion () {
+		return religion;
+	}
 	
 	@Override
-	public int compareTo (Schueler other)
-	{
+	public int compareTo (Schueler other) {
 		return Comparator.comparing(Schueler::getKlasse).thenComparing(Schueler::getName).thenComparing(Schueler::getVorname).thenComparing(Schueler::getGeboren).compare(this, other);
 	}
 }
 
-class SchuelerVerwaltung
-{
+class SchuelerVerwaltung {
 	private Collection<Schueler> schuelerCollection;
 	
-	SchuelerVerwaltung (String filePath) throws IOException
-	{
+	SchuelerVerwaltung (String filePath) throws IOException {
 		schuelerCollection = Files.lines(Paths.get(filePath))
 				.filter(line -> line.matches("\\d\\w{4};(\\w|\\s|[äÖöÜüáß-])+;(\\w|\\s|[äü-])+;\\w;(\\d{2}\\.){2}\\d{4};[\\wäö]+[\\.\\w-]*(\\sA.B.)*"))
 				.map(Schueler::new)
 				.collect(Collectors.toCollection(TreeSet::new));
 	}
 	
-	Set<Schueler> getSchuelerFromKlasse (String klasse)
-	{
+	Set<Schueler> getSchuelerFromKlasse (String klasse) {
 		return schuelerCollection.stream()
 				.filter(schueler -> schueler.getKlasse().equals(klasse))
 				.collect(Collectors.toCollection(TreeSet::new));
 	}
 	
-	Set<Schueler> containsName (String name, boolean komplett)
-	{
+	Set<Schueler> containsName (String name, boolean komplett) {
 		return schuelerCollection.stream()
 				.filter(schueler -> komplett ? schueler.getName().equals(name) : schueler.getName().contains(name))
 				.collect(Collectors.toCollection(TreeSet::new));
 	}
 	
-	Set<Schueler> getAllWith (char geschlecht)
-	{
+	Set<Schueler> getAllWith (char geschlecht) {
 		return schuelerCollection.stream()
 				.filter(schueler -> schueler.getGeschlecht() == geschlecht)
 				.collect(Collectors.toCollection(TreeSet::new));
 	}
 	
-	Set<Schueler> getGeborenBis (LocalDate datum, boolean vorNach)
-	{
+	Set<Schueler> getGeborenBis (LocalDate datum, boolean vorNach) {
 		Stream<Schueler> stream = schuelerCollection.stream();
 		if (vorNach)
 			stream = stream.filter(schueler -> schueler.getGeboren().compareTo(datum) <= 0);
@@ -116,12 +122,10 @@ class SchuelerVerwaltung
 		return stream.collect(Collectors.toSet());
 	}
 	
-	Map<String, Integer> getKlassenAnzahl ()
-	{
+	Map<String, Integer> getKlassenAnzahl () {
 		Map<String, Integer> klassenAnzahl = new HashMap<>();
 		
-		for (Schueler schueler : schuelerCollection)
-		{
+		for (Schueler schueler : schuelerCollection) {
 			if (!klassenAnzahl.containsKey(schueler.getKlasse()))
 				klassenAnzahl.put(schueler.getKlasse(), (int) schuelerCollection.stream()
 						.filter(schueler1 -> schueler1.getKlasse().equals(schueler.getKlasse()))
@@ -131,18 +135,14 @@ class SchuelerVerwaltung
 		return klassenAnzahl;
 	}
 	
-	Map<String, Map<String, List<String>>> getReligionsZugehoerigkeit ()
-	{
+	Map<String, Map<String, List<String>>> getReligionsZugehoerigkeit () {
 		Map<String, Map<String, List<String>>> religionsZugehoerigkeit = new HashMap<>();
 		
-		for (Schueler schueler : schuelerCollection)
-		{
-			if (!religionsZugehoerigkeit.containsKey(schueler.getReligion()))
-			{
+		for (Schueler schueler : schuelerCollection) {
+			if (!religionsZugehoerigkeit.containsKey(schueler.getReligion())) {
 				Map<String, List<String>> schuelerMap = new HashMap<>();
 				
-				for (Schueler schueler1 : schuelerCollection)
-				{
+				for (Schueler schueler1 : schuelerCollection) {
 					if (schueler.getReligion().equals(schueler1.getReligion()))
 						schuelerMap.put(schueler1.getKlasse(), schuelerCollection.stream()
 								.filter(schueler2 -> schueler2.getKlasse().equals(schueler1.getKlasse()) && schueler2.getReligion().equals(schueler1.getReligion()))
@@ -157,12 +157,10 @@ class SchuelerVerwaltung
 		return religionsZugehoerigkeit;
 	}
 	
-	Map<LocalDate, Set<String>> getGeburtstagsListe (int jahr)
-	{
+	Map<LocalDate, Set<String>> getGeburtstagsListe (int jahr) {
 		Map<LocalDate, Set<String>> geburtstagsListe = new HashMap<>();
 		
-		for (Schueler schueler : schuelerCollection)
-		{
+		for (Schueler schueler : schuelerCollection) {
 			if (schueler.getGeboren().getYear() == jahr && !geburtstagsListe.containsKey(schueler.getGeboren()))
 				geburtstagsListe.put(schueler.getGeboren(), schuelerCollection.stream()
 						.filter(schueler1 -> schueler1.getGeboren() == schueler.getGeboren())
@@ -173,8 +171,7 @@ class SchuelerVerwaltung
 		return geburtstagsListe;
 	}
 	
-	Map<LocalDate, Set<String>> getGeburtstagsListe ()
-	{
+	Map<LocalDate, Set<String>> getGeburtstagsListe () {
 		return getGeburtstagsListe(LocalDate.now().getYear());
 	}
 }
