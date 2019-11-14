@@ -22,7 +22,6 @@ public class Shares implements Comparable<Shares> {
 	public static void main (String[] args) {
 		try {
 			Queue<Shares> sharesQueue = readFromCSV("resources/labors/labor08/stocks.csv");
-			System.out.println(sharesQueue);
 			Map<Shares, Integer> boughtSharesMap = new TreeMap<>();
 			int capital = 100000, currentCapital = capital, i;
 			
@@ -47,7 +46,7 @@ public class Shares implements Comparable<Shares> {
 	
 	private Shares (String input) {
 		String[] split = input.split(",");
-		rating = Integer.parseInt(split[split.length - 2]);
+		rating = Integer.parseInt(split[split.length - 2]); // wenn man bei Rating = 0 INFINITY vermeiden möchte muss man 1 addieren.
 		price = Integer.parseInt(split[split.length - 1]);
 		priceRatingRatio = (double) price / (double) rating;
 		StringBuilder companyNameBuilder = new StringBuilder(split[0]);

@@ -129,7 +129,7 @@ public class SchuelerVerwaltungTest {
     /**
      * Test of geborenBis method, of class SchuelerVerwaltung.
      */
-    /*
+    
     @Test
     public void testGetGeborenBis() {
         LocalDate heute = LocalDate.now();
@@ -142,8 +142,6 @@ public class SchuelerVerwaltungTest {
         result = informatik.getGeborenBis(LocalDate.of(1999, 7, 1), false);
         assertEquals(204, result.size());
     }
-    
-     */
 
     /**
      * Test of geburtstagsListe method, of class SchuelerVerwaltung.
