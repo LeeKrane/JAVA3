@@ -1,21 +1,22 @@
 package labors.labor05;
 
 import org.junit.Test;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 /**
  * @author LeeKrane
  */
 
-public class PhonebookEntryTest
-{
+public class PhonebookEntryTest {
 	@Test
-	public void sortingTest ()
-	{
+	public void sortingTest () {
 		List<PhonebookEntry> entries = new ArrayList<>();
 		ArrayList<PhonebookEntry> entriesSorted = new ArrayList<>();
 		
@@ -49,33 +50,25 @@ public class PhonebookEntryTest
 	}
 	
 	@Test
-	public void initializationHandlingTest ()
-	{
-		try
-		{
+	public void initializationHandlingTest () {
+		try {
 			new PhonebookEntry("+431234567", "correct");
 			new PhonebookEntry("+45872365", "correct");
 			new PhonebookEntry("+12473488732", "correct");
 			new PhonebookEntry("02386578324", "correct");
 			new PhonebookEntry("054263874", "correct");
 			new PhonebookEntry("000003486", "correct");
-		}
-		catch (IllegalArgumentException iae)
-		{
+		} catch (IllegalArgumentException iae) {
 			fail();
 		}
-		try
-		{
+		try {
 			new PhonebookEntry("+0687235", "incorrect");
 			fail();
+		} catch (IllegalArgumentException ignored) {
 		}
-		catch (IllegalArgumentException ignored)
-		{ }
-		try
-		{
+		try {
 			new PhonebookEntry("2343543634", "incorrect");
+		} catch (IllegalArgumentException ignored) {
 		}
-		catch (IllegalArgumentException ignored)
-		{ }
 	}
 }

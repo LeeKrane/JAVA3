@@ -6,15 +6,13 @@ import java.util.*;
  * @author LeeKrane
  */
 
-public class Student implements Comparable<Student>
-{
+public class Student implements Comparable<Student> {
 	private String name;
 	private String vorname;
 	private int matrikelnummer;
 	private static List<Integer> verwendeteMatrikelnummern = new LinkedList<>();
 	
-	public static void main (String[] args)
-	{
+	public static void main (String[] args) {
 		Set<Student> students = new TreeSet<>();
 		students.add(new Student("Muster", "Thomas", 123456));
 		students.add(new Student("Herbert", "Franz", 111111));
@@ -24,8 +22,7 @@ public class Student implements Comparable<Student>
 		System.out.println(students);
 	}
 	
-	Student (String name, String vorname, int matrikelnummer)
-	{
+	Student (String name, String vorname, int matrikelnummer) {
 		if (name == null || vorname == null || name.equals("") || vorname.equals("") || verwendeteMatrikelnummern.contains(matrikelnummer) || !(matrikelnummer >= 100000 && matrikelnummer < 1000000))
 			throw new IllegalArgumentException();
 		
@@ -36,16 +33,25 @@ public class Student implements Comparable<Student>
 	}
 	
 	@Override
-	public int compareTo (Student other) { return Comparator.comparing(Student::getName).thenComparing(Student::getVorname).compare(this, other); }
-	private String getName () { return name; }
-	private String getVorname () { return vorname; }
+	public int compareTo (Student other) {
+		return Comparator.comparing(Student::getName).thenComparing(Student::getVorname).compare(this, other);
+	}
+	
+	private String getName () {
+		return name;
+	}
+	
+	private String getVorname () {
+		return vorname;
+	}
 	
 	@Override
-	public String toString () { return "Student{Name -> '" + name + "', Vorname -> '" + vorname + "', Matrikelnummer -> '" + matrikelnummer + "'}"; }
+	public String toString () {
+		return "Student{Name -> '" + name + "', Vorname -> '" + vorname + "', Matrikelnummer -> '" + matrikelnummer + "'}";
+	}
 	
 	@Override
-	public boolean equals (Object o)
-	{
+	public boolean equals (Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		Student student = (Student) o;
@@ -55,5 +61,7 @@ public class Student implements Comparable<Student>
 	}
 	
 	@Override
-	public int hashCode () { return Objects.hash(name, vorname, matrikelnummer); }
+	public int hashCode () {
+		return Objects.hash(name, vorname, matrikelnummer);
+	}
 }
