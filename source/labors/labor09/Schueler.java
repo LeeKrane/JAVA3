@@ -71,6 +71,10 @@ public class Schueler implements Comparable<Schueler> {
 		return geschlecht;
 	}
 	
+	int getAge (LocalDate date) {
+		return date.getYear() - geboren.getYear();
+	}
+	
 	LocalDate getGeboren () {
 		return geboren;
 	}
@@ -114,24 +118,22 @@ class SchuelerVerwaltung {
 	}
 	
 	Set<Schueler> getGeborenBis (LocalDate datum, boolean vorNach) {
-		Stream<Schueler> stream = schuelerCollection.stream();
+		Stream<Schueler> schuelerStream = schuelerCollection.stream();
 		if (vorNach)
-			stream = stream.filter(schueler -> schueler.getGeboren().compareTo(datum) <= 0);
+			schuelerStream = schuelerStream.filter(schueler -> schueler.getGeboren().compareTo(datum) <= 0);
 		else
-			stream = stream.filter(schueler -> schueler.getGeboren().compareTo(datum) >= 0);
-		return stream.collect(Collectors.toSet());
+			schuelerStream = schuelerStream.filter(schueler -> schueler.getGeboren().compareTo(datum) >= 0);
+		return schuelerStream.collect(Collectors.toCollection(TreeSet::new));
 	}
 	
 	Map<String, Integer> getKlassenAnzahl () {
-		Map<String, Integer> klassenAnzahl = new HashMap<>();
-		
+		Map<String, Integer> klassenAnzahl = new TreeMap<>();
 		for (Schueler schueler : schuelerCollection) {
 			if (!klassenAnzahl.containsKey(schueler.getKlasse()))
 				klassenAnzahl.put(schueler.getKlasse(), (int) schuelerCollection.stream()
 						.filter(schueler1 -> schueler1.getKlasse().equals(schueler.getKlasse()))
 						.count());
 		}
-		
 		return klassenAnzahl;
 	}
 	

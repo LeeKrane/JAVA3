@@ -1,27 +1,14 @@
 package labors.labor09;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.*;
+
 import static org.junit.Assert.*;
 
-/**
- *
- * @author maus, update scre
- */
 public class SchuelerVerwaltungTest {
 
     private SchuelerVerwaltung informatik;
@@ -42,9 +29,6 @@ public class SchuelerVerwaltungTest {
         ines = Schueler.makeSchueler("3BHIF;Lapatschka;Ines;w;19.03.2000;evang. A.B.");
     }
 
-    /**
-     * Test of schuelerEinerKlasse method, of class SchuelerVerwaltung.
-     */
     @Test
     public void testGetSchuelerFromKlase() {
         String klasse = "1AHIF";
@@ -58,9 +42,6 @@ public class SchuelerVerwaltungTest {
         assertTrue(result.contains(ines));
     }
 
-    /**
-     * Test of containsName method, of class SchuelerVerwaltung.
-     */
     @Test
     public void testContainsName() {
         String name = "Andrae";
@@ -83,9 +64,6 @@ public class SchuelerVerwaltungTest {
         assertEquals(LocalDate.of(1996, 1, 20), liste.get(5).getGeboren());
     }
 
-    /**
-     * Test of maennlichWeiblich method, of class SchuelerVerwaltung.
-     */
     @Test
     public void testGetAllWith() {
         Set<Schueler> result = informatik.getAllWith('w');
@@ -97,9 +75,6 @@ public class SchuelerVerwaltungTest {
         assertEquals(ines, liste.get(14));
     }
 
-    /**
-     * Test of klassenAnzahl method, of class SchuelerVerwaltung.
-     */
     @Test
     public void testGetKlassenAnzahl() {
         Map<String, Integer> result = informatik.getKlassenAnzahl();
@@ -110,9 +85,6 @@ public class SchuelerVerwaltungTest {
         assertEquals(20, (int) result.get("5BHIF"));
     }
 
-    /**
-     * Test of religionsZugehoerigkeit method, of class SchuelerVerwaltung.
-     */
     @Test
     public void testGetReligionsZugehoerigkeit() {
         Map<String, Map<String, List<String>>> result
@@ -126,10 +98,6 @@ public class SchuelerVerwaltungTest {
         assertEquals(1, religionsListe.get("2BHIF").size());
     }
 
-    /**
-     * Test of geborenBis method, of class SchuelerVerwaltung.
-     */
-    
     @Test
     public void testGetGeborenBis() {
         LocalDate heute = LocalDate.now();
@@ -143,9 +111,6 @@ public class SchuelerVerwaltungTest {
         assertEquals(204, result.size());
     }
 
-    /**
-     * Test of geburtstagsListe method, of class SchuelerVerwaltung.
-     */
     @Test
     public void testGeburtstagsListeIntArg() {
         Map<LocalDate, Set<String>> result = informatik.getGeburtstagsListe(2017);
@@ -158,9 +123,6 @@ public class SchuelerVerwaltungTest {
         assertEquals(7, namensListe.get(43).size());
     }
 
-    /**
-     * Test of geburtstagsListe method, of class SchuelerVerwaltung.
-     */
     @Test
     public void testGeburtstagsListeNoArgs() {
         Map<LocalDate, Set<String>> result = informatik.getGeburtstagsListe();
