@@ -1,46 +1,52 @@
-package labors.labor09;/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+package labors.labor09;
+
+import org.junit.Test;
 
 import java.time.LocalDate;
 import java.time.Month;
-import static org.junit.Assert.assertEquals;
-import org.junit.Before;
-import org.junit.Test;
-/**
- * @author scre
- */
+import java.time.format.DateTimeParseException;
+
+import static org.junit.Assert.*;
+
 public class SchuelerTest {
     
-    Schueler andrae, riegler, ines;
-    
-    public SchuelerTest () {
-    }
-    
-    
-    @Before
-    public void setUp () {
-        andrae = Schueler.makeSchueler("1AHIF;Andrae;Franz Eduardo;m;29.02.2000;röm.-kath.");
-        riegler = Schueler.makeSchueler("1AHIF;Riegler;Marvin;m;01.09.2002;evang. A.B.");
-        ines = Schueler.makeSchueler("3BHIF;Lapatschka;Ines;w;19.03.2000;evang. A.B.");
+    @Test(expected = DateTimeParseException.class)
+    public void constructor_illegalMonth_exception () {
+        Schueler.makeSchueler("1AHIF;Anders;Franz Eduardo;m;29.13.1998;röm.-kath.");
     }
     
     /**
-     * Test of makeSchueler method, of class Schueler.
+     * DateTimeFormatter versucht standardgemäß mit Resolverstyle.SMART falsche Daten zu korrigieren
      */
-    /**
-     * Test of getAge method, of class Schueler.
-     */
+    @Test(expected = DateTimeParseException.class)
+    public void constructor_noLeapYear_exception () {
+        Schueler.makeSchueler("1AHIF;Anders;Franz Eduardo;m;29.02.1998;röm.-kath.");
+    }
+
     @Test
-    public void testGetAge () {
-        System.out.println("getAge");
+    public void getAge_dateInFuture_success () {
         LocalDate date = LocalDate.of(2004, Month.FEBRUARY, 29);
-        Schueler instance = andrae;
-        int expResult = 4;
-        int result = instance.getAge(date);
-        assertEquals(expResult, result);
+        Schueler schueler = Schueler.makeSchueler("1AHIF;Raxler;Martin;m;01.09.1998;evang. A.B.");
+        assertEquals(5, schueler.getAge(date));
+    }
+    
+    @Test
+    public void getAge_dateInPast_exception () {
+        LocalDate date = LocalDate.of(1998, Month.AUGUST, 31);
+        try {
+            Schueler schueler = Schueler.makeSchueler("1AHIF;Raxler;Martin;m;01.09.1998;evang. A.B.");
+            schueler.getAge(date);
+            fail("Student not born yet");
+        } catch (IllegalArgumentException expected) {
+            assertTrue(expected.getMessage().contains(date.toString()));
+        }
+    }
+    
+    @Test
+    public void getAge_dateEqualBirthdate_success () {
+        LocalDate date = LocalDate.of(1998, Month.SEPTEMBER, 1);
+        Schueler schueler = Schueler.makeSchueler("1AHIF;Raxler;Martin;m;01.09.1998;evang. A.B.");
+        assertEquals(0, schueler.getAge(date));
     }
 
 }

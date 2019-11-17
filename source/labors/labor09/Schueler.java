@@ -5,13 +5,13 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.ResolverStyle;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * TODO: Programm fertigstellen
- *
+ * TODO: finish "geburtstagsListe" to get all tests right. (1 test is still failing)
  * @author LeeKrane
  */
 
@@ -29,7 +29,7 @@ public class Schueler implements Comparable<Schueler> {
 		name = split[1];
 		vorname = split[2];
 		geschlecht = split[3].charAt(0);
-		geboren = LocalDate.parse(split[4], DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+		geboren = LocalDate.parse(split[4], DateTimeFormatter.ofPattern("dd.MM.uuuu").withResolverStyle(ResolverStyle.STRICT)); // y: year of era, u: year. ResolverStyle.STRICT needs year (u)
 		religion = split[5];
 	}
 	
@@ -70,7 +70,12 @@ public class Schueler implements Comparable<Schueler> {
 	}
 	
 	int getAge (LocalDate date) {
-		return date.getYear() - geboren.getYear();
+		int difference = date.getYear() - geboren.getYear();
+		if (geboren.getMonthValue() > date.getMonthValue() || (geboren.getMonthValue() == date.getMonthValue() && geboren.getDayOfMonth() > date.getDayOfMonth()))
+			difference--;
+		if (difference < 0)
+			throw new IllegalArgumentException("Student has not yet been born yet on: " + date.toString());
+		return difference;
 	}
 	
 	LocalDate getGeboren () {
@@ -161,10 +166,10 @@ class SchuelerVerwaltung {
 		Map<LocalDate, Set<String>> geburtstagsListe = new HashMap<>();
 		
 		for (Schueler schueler : schuelerCollection) {
-			if (!geburtstagsListe.containsKey(schueler.getGeboren()))
-				geburtstagsListe.put(schueler.getGeboren(), schuelerCollection.stream()
-						.filter(schueler1 -> schueler1.getGeboren() == schueler.getGeboren())
-						.map(schueler1 -> String.format("%s %s %s %d", schueler1.getName(), schueler1.getVorname(), schueler1.getKlasse(), LocalDate.now().getYear() - schueler1.getGeboren().getYear()))
+			if (schueler.getGeboren().getYear() <= jahr && !geburtstagsListe.containsKey(schueler.getGeboren()))
+				geburtstagsListe.put(LocalDate.of(jahr, schueler.getGeboren().getMonthValue(), schueler.getGeboren().getDayOfMonth()), schuelerCollection.stream()
+						.filter(schueler1 -> schueler1.getGeboren().getMonthValue() == schueler.getGeboren().getMonthValue() && schueler1.getGeboren().getDayOfMonth() == schueler.getGeboren().getDayOfMonth())
+						.map(schueler1 -> String.format("%s %s %s %d", schueler1.getName(), schueler1.getVorname(), schueler1.getKlasse(), jahr - schueler1.getGeboren().getYear()))
 						.collect(Collectors.toCollection(TreeSet::new)));
 		}
 		
