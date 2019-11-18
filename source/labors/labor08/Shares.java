@@ -46,7 +46,7 @@ public class Shares implements Comparable<Shares> {
 	
 	private Shares (String input) {
 		String[] split = input.split(",");
-		rating = Integer.parseInt(split[split.length - 2]); // wenn man bei Rating = 0 INFINITY vermeiden möchte muss man 1 addieren.
+		rating = Integer.parseInt(split[split.length - 2]); // wenn man bei Rating = 0 INFINITY vermeiden möchte muss man 1 addieren. (führt zu anderen Ergebnissen)
 		price = Integer.parseInt(split[split.length - 1]);
 		priceRatingRatio = (double) price / (double) rating;
 		StringBuilder companyNameBuilder = new StringBuilder(split[0]);
