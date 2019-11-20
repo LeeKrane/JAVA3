@@ -172,7 +172,6 @@ class SchuelerVerwaltung {
 						.collect(Collectors.toCollection(TreeSet::new)));
 		}
 		
-		
 		return geburtstagsListe;
 	}
 	
