@@ -3,7 +3,6 @@ package labors.labor09;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
@@ -142,7 +141,6 @@ public class SchuelerVerwaltungTest {
         Map<LocalDate, Set<String>> result = verwaltung.getGeburtstagsListe(2017);
         assertEquals(213, result.size());
         List<Set<String>> names = new ArrayList<>(result.values());
-        System.out.println(names);
         assertTrue(names.get(5).contains("Mrskos Julia Marlene 1CHIF 15"));
         assertEquals(2, names.get(5).size());
         assertEquals(7, names.get(43).size());

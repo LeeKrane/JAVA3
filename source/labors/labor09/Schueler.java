@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * TODO: finish "geburtstagsListe" to get all tests right. (1 test is still failing)
  * @author LeeKrane
  */
 
@@ -163,7 +162,7 @@ class SchuelerVerwaltung {
 	}
 	
 	Map<LocalDate, Set<String>> getGeburtstagsListe (int jahr) {
-		Map<LocalDate, Set<String>> geburtstagsListe = new HashMap<>();
+		Map<LocalDate, Set<String>> geburtstagsListe = new TreeMap<>();
 		
 		for (Schueler schueler : schuelerCollection) {
 			if (schueler.getGeboren().getYear() <= jahr && !geburtstagsListe.containsKey(schueler.getGeboren()))
@@ -172,6 +171,7 @@ class SchuelerVerwaltung {
 						.map(schueler1 -> String.format("%s %s %s %d", schueler1.getName(), schueler1.getVorname(), schueler1.getKlasse(), jahr - schueler1.getGeboren().getYear()))
 						.collect(Collectors.toCollection(TreeSet::new)));
 		}
+		
 		
 		return geburtstagsListe;
 	}
