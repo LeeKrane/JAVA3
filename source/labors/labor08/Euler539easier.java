@@ -21,7 +21,6 @@ public class Euler539easier {
 		if (n < 1) throw new IllegalArgumentException("The variable n has to be 1 or higher!");
 		List<Integer> integerList = new ArrayList<>();
 		for (int i = 1; i <= n; i++) integerList.add(i);
-		
 		return integerList;
 	}
 	
@@ -30,19 +29,17 @@ public class Euler539easier {
 		boolean leftToRight = true;
 		
 		while (integerList.size() > 1) {
-			if (leftToRight) Collections.sort(integerList);
-			else integerList.sort(Comparator.reverseOrder());
-			for (int i = 0; i < integerList.size(); i++) integerList.remove(i);
+			if (leftToRight) integerList.sort(Comparator.reverseOrder());
+			else Collections.sort(integerList);
+			for (int i = integerList.size() - 1; i >= 0; i -= 2) integerList.remove(i);
 			leftToRight = !leftToRight;
 		}
-		
 		return integerList.get(0);
 	}
 	
 	private static long getS (int n) {
 		long ret = 0;
 		for (int i = 1; i <= n; i++) ret += getP(i);
-		
 		return ret;
 	}
 }
