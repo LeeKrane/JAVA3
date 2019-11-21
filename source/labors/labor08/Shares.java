@@ -75,7 +75,6 @@ public class Shares implements Comparable<Shares> {
 			if (line.matches("(.+),(\\d),(\\d+)"))
 				sharesQueue.add(new Shares(line));
 		}
-		
 		return sharesQueue;
 	}
 	

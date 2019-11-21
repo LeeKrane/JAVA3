@@ -157,7 +157,6 @@ class SchuelerVerwaltung {
 				religionsZugehoerigkeit.put(schueler.getReligion(), schuelerMap);
 			}
 		}
-		
 		return religionsZugehoerigkeit;
 	}
 	
@@ -171,7 +170,6 @@ class SchuelerVerwaltung {
 						.map(schueler1 -> String.format("%s %s %s %d", schueler1.getName(), schueler1.getVorname(), schueler1.getKlasse(), jahr - schueler1.getGeboren().getYear()))
 						.collect(Collectors.toCollection(TreeSet::new)));
 		}
-		
 		return geburtstagsListe;
 	}
 	
