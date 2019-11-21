@@ -36,10 +36,10 @@ public class WasserstandAnalyse {
 			System.err.println(e.getMessage());
 		}
 		System.out.println("Alle Wasserstände:\n" + wa.levels + '\n');
-		System.out.println("Alle Zeitpunkte mit dem höchsten Wasserstand der ersten 70 Einträge:\n" + wa.highest(startingDate, testEndingDate) + '\n');
-		System.out.println("Durchschnittlicher Wasserstand der ersten 70 Einträge: " + wa.average(startingDate, testEndingDate) + '\n');
-		System.out.println("Alle Zeitpunkte mit dem höchsten Wasserstand aller Einträge:\n" + wa.highest(startingDate, actualEndingDate) + '\n');
-		System.out.println("Durchschnittlicher Wasserstand aller Einträge: " + wa.average(startingDate, actualEndingDate) + '\n');
+		System.out.println("Alle Zeitpunkte mit dem höchsten Wasserstand der ersten 70 Einträge:\n" + wa.highest(startingDate, testEndingDate) + '\n'); // 221
+		System.out.println("Durchschnittlicher Wasserstand der ersten 70 Einträge: " + wa.average(startingDate, testEndingDate) + '\n'); // 220.3913043478261
+		System.out.println("Alle Zeitpunkte mit dem höchsten Wasserstand aller Einträge:\n" + wa.highest(startingDate, actualEndingDate) + '\n'); // 536
+		System.out.println("Durchschnittlicher Wasserstand aller Einträge: " + wa.average(startingDate, actualEndingDate) + '\n'); // 381.5938210992696
 	}
 	
 	private static Map<LocalDateTime, Integer> readFromFile (String filePath) throws IOException {
