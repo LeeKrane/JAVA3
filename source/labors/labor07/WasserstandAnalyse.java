@@ -26,9 +26,9 @@ public class WasserstandAnalyse {
 	public static void main (String[] args) {
 		WasserstandAnalyse wa = new WasserstandAnalyse();
 		
-		LocalDateTime startingDate = LocalDateTime.parse("15.06.2009 00:00", df);
-		LocalDateTime testEndingDate = LocalDateTime.parse("15.06.2009 05:45", df);
-		LocalDateTime actualEndingDate = LocalDateTime.parse("13.07.2009 23:55", df);
+		LocalDateTime startingDate = LocalDateTime.parse("15.06.2009 00:00", df); // 1st entry
+		LocalDateTime testEndingDate = LocalDateTime.parse("15.06.2009 05:45", df); // 70th entry
+		LocalDateTime actualEndingDate = LocalDateTime.parse("13.07.2009 23:55", df); // last entry
 		
 		try {
 			wa.levels = readFromFile("resources/labors/labor07/data_25268_W_MONTH.txt");
@@ -58,14 +58,11 @@ public class WasserstandAnalyse {
 		
 		while (br.ready()) {
 			line = br.readLine();
-			if (line.matches("((\\d{2}\\.){2}\\d{4}\\s\\d{2}:\\d{2})\\s((\\d{2}\\.){2}\\d{4}\\s\\d{2}:\\d{2})\\s(\\d{3})\\s\\w\\s\\w{10}")) // Regex ist anders als bei der Fancy Variante
-			{
+			if (line.matches("((\\d{2}\\.){2}\\d{4}\\s\\d{2}:\\d{2})\\s((\\d{2}\\.){2}\\d{4}\\s\\d{2}:\\d{2})\\s(\\d{3})\\s\\w\\s\\w{10}")) { // Regex ist anders als bei der Fancy Variante
 				split = line.split("\\s");
-				LocalDateTime dateTime = LocalDateTime.parse(split[0] + " " + split[1], df);
-				map.put(dateTime, Integer.parseInt(split[4]));
+				map.put(LocalDateTime.parse(split[0] + " " + split[1], df), Integer.parseInt(split[4]));
 			}
 		}
-		
 		return map;
 	}
 	
@@ -81,16 +78,13 @@ public class WasserstandAnalyse {
 			if ((int) mapEntry.getValue() == maxValue)
 				maxValueDates.put((LocalDateTime) mapEntry.getKey(), (int) mapEntry.getValue());
 		}
-		
 		return maxValueDates;
 	}
 	
 	private double average (LocalDateTime from, LocalDateTime to) {
 		SortedMap<LocalDateTime, Integer> subLevels = new TreeMap<>(levels).subMap(from, to);
 		double averageValue = 0;
-		
 		for (int i : subLevels.values()) averageValue += i;
-		
 		return averageValue / subLevels.size();
 	}
 }
