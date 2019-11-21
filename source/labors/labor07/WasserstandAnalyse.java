@@ -79,7 +79,7 @@ public class WasserstandAnalyse {
 		}
 		for (Map.Entry mapEntry : subLevels.entrySet()) {
 			if ((int) mapEntry.getValue() == maxValue)
-				maxValueDates.put((LocalDateTime) mapEntry.getKey(), (Integer) mapEntry.getValue());
+				maxValueDates.put((LocalDateTime) mapEntry.getKey(), (int) mapEntry.getValue());
 		}
 		
 		return maxValueDates;
