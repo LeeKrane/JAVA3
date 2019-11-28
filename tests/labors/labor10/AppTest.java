@@ -16,7 +16,12 @@ import java.util.TreeSet;
 import static org.junit.Assert.*;
 
 public class AppTest {
-/*
+    private static String invalid1Dat = "resources/labors/labor10/invalid_1.dat";
+    private static String invalid2Dat = "resources/labors/labor10/invalid_2.dat";
+    private static String nanDat = "resources/labors/labor10/nan.dat";
+    private static String validDat = "resources/labors/labor10/valid.dat";
+    private static String testDat = "resources/labors/labor10/test.dat";
+
     @AfterClass
     public static void deleteTestFiles() throws IOException {
         Files.deleteIfExists(Paths.get("test.dat"));
@@ -24,35 +29,35 @@ public class AppTest {
 
     @Test
     public void createFile_5values_fileAsSpecified() throws IOException {
-        App.createFile("test.dat", 1.2, 3.141592, 4, 7.8, 2.683);
-        byte[] result = Files.readAllBytes(Paths.get("test.dat"));
-        byte[] expected = Files.readAllBytes(Paths.get("valid.dat"));
+        App.createFile(testDat, 1.2, 3.141592, 4, 7.8, 2.683);
+        byte[] result = Files.readAllBytes(Paths.get(testDat));
+        byte[] expected = Files.readAllBytes(Paths.get(validDat));
         assertArrayEquals(expected, result);
     }
 
     @Test
     public void isValidFile_validFile_true() throws IOException {
-        assertTrue(App.isValidFile("valid.dat"));
+        assertTrue(App.isValidFile(validDat));
     }
 
     @Test
     public void isValidFile_fileContainingNaNs_true() throws IOException {
-        assertTrue(App.isValidFile("nan.dat"));
+        assertTrue(App.isValidFile(nanDat));
     }
 
     @Test
     public void isValidFile_wrongCount_false() throws IOException {
-        assertFalse(App.isValidFile("invalid_1.dat"));
+        assertFalse(App.isValidFile(invalid1Dat));
     }
 
     @Test
     public void isValidFile_fileSizeWrong_false() throws IOException {
-        assertFalse(App.isValidFile("invalid_2.dat"));
+        assertFalse(App.isValidFile(invalid2Dat));
     }
 
     @Test
     public void printFileInfo_validFile_stringFormattedAsSpecified() throws IOException {
-        String result = App.getFileInfo("valid.dat");
+        String result = App.getFileInfo(validDat);
         String[] lines = result.split("\n");
         assertTrue(lines[0].contains("5"));
         String expected = "1,20 3,14 4,00 7,80 2,68";
@@ -61,7 +66,7 @@ public class AppTest {
 
     @Test
     public void printFileInfo_fileContainingNaNs_stringFormattedAsSpecified() throws IOException {
-        String result = App.getFileInfo("nan.dat");
+        String result = App.getFileInfo(nanDat);
         String[] lines = result.split("\n");
         assertTrue(lines[0].contains("3"));
         String expected = "Infinity -Infinity NaN";
@@ -70,10 +75,10 @@ public class AppTest {
 
     @Test
     public void printFileInfo_invalidFile_Stringinvalid() throws IOException {
-        String result = App.getFileInfo("invalid_1.dat");
+        String result = App.getFileInfo(invalid1Dat);
         assertTrue(result.contains("invalid"));
     }
-
+    
     @Test
     public void append_validFile_countUpdatedValueAppended() throws IOException {
         App.createFile("test.dat", 1, 2);
@@ -90,7 +95,7 @@ public class AppTest {
     @Test
     public void append_invalidFile_exception() throws IOException {
         try {
-            App.append("invalid_1.dat", 0);
+            App.append(invalid1Dat, 0);
             fail();
         } catch (IllegalArgumentException expected) {
             assertTrue(expected.getMessage().contains("invalid_1.dat"));
@@ -98,6 +103,7 @@ public class AppTest {
         }
     }
 
+    /*
     @Test
     public void getContents_validFile_savedNumbers() throws IOException {
         List<Number> result = App.getContents("numbers.dat");
@@ -127,6 +133,5 @@ public class AppTest {
         Map<String, Set<? extends Number>> expected = Map.of("Integer", ints, "Double", doubles);
         assertEquals(expected, result);
     }
-    
- */
+     */
 }
