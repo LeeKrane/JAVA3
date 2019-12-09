@@ -13,8 +13,8 @@ public class PasswordCrack {
 		first solution: !computationally&
 		first time (ms): 273665
 		second (long time) hash: b1435b304bf50e05853947ea8c0b5f19ac26bf5f8c8fe5f927b4a744c2443232
-		second solution:
-		second time (ms):
+		second solution: )secundoprimary!
+		second time (ms): 1233569
 	 */
 	
 	public static void main (String[] args) {
