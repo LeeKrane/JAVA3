@@ -18,9 +18,16 @@ public class PasswordCrack {
 	 */
 	
 	public static void main (String[] args) {
+		// first:
+		//doBruteForce("source/reio/words.txt", new char[] {'!', '$', '%', '&', '/', '(', ')', '=', '?'}, "9c8844145a7aeea05a0a8582e3f38b02e759061a0536d2e103607ac5f28b5d88");
+		// second:
+		doBruteForce("source/reio/words.txt", new char[] {'!', '$', '%', '&', '/', '(', ')', '=', '?'}, "b1435b304bf50e05853947ea8c0b5f19ac26bf5f8c8fe5f927b4a744c2443232");
+	}
+	
+	private static void doBruteForce (String filePath, char[] startAndEnd, String hash) {
 		try {
 			Instant start = Instant.now();
-			System.out.println(bruteForce("source/reio/words.txt", new char[] {'!', '$', '%', '&', '/', '(', ')', '=', '?'}, "9c8844145a7aeea05a0a8582e3f38b02e759061a0536d2e103607ac5f28b5d88"));
+			System.out.println(bruteForce(filePath, startAndEnd, hash));
 			Instant end = Instant.now();
 			Duration d = Duration.between(start, end);
 			System.out.format("passed time: %d milliseconds", d.toMillis());
