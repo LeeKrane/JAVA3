@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.*;
 
-public class App {
+public class RAF {
 	// 1 RandomAccessFile
 	static void createFile (String filePath, double... values) throws IOException {
 		try (RandomAccessFile raf = new RandomAccessFile(filePath, "rw")) {

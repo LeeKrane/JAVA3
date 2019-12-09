@@ -1,61 +1,62 @@
 package reio;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.Duration;
 import java.time.Instant;
 
 public class PasswordCrack {
-	/*
-		hash-algorithm: SHA-256
-		first (short time) hash: 9c8844145a7aeea05a0a8582e3f38b02e759061a0536d2e103607ac5f28b5d88
-		first solution: !computationally&
-		first time (ms): 273665
-		second (long time) hash: b1435b304bf50e05853947ea8c0b5f19ac26bf5f8c8fe5f927b4a744c2443232
-		second solution: )secundoprimary!
-		second time (ms): 1233569
-	 */
+	private static char[] specialCharacters = new char[] {'!', '$', '%', '&', '/', '(', ')', '=', '?'};
 	
+	/**
+	 * hashing-algorithm: SHA-256
+	 * <p>
+	 * first hashcode: 9c8844145a7aeea05a0a8582e3f38b02e759061a0536d2e103607ac5f28b5d88
+	 * solution: !computationally&
+	 * time in ms: 273665
+	 * <p>
+	 * second hashcode: b1435b304bf50e05853947ea8c0b5f19ac26bf5f8c8fe5f927b4a744c2443232
+	 * solution: )secundoprimary!
+	 * time in ms: 1233569
+	 */
 	public static void main (String[] args) {
-		// first:
-		//doBruteForce("source/reio/words.txt", new char[] {'!', '$', '%', '&', '/', '(', ')', '=', '?'}, "9c8844145a7aeea05a0a8582e3f38b02e759061a0536d2e103607ac5f28b5d88");
-		// second:
-		doBruteForce("source/reio/words.txt", new char[] {'!', '$', '%', '&', '/', '(', ')', '=', '?'}, "b1435b304bf50e05853947ea8c0b5f19ac26bf5f8c8fe5f927b4a744c2443232");
+		/* first hashcode */
+		initiateBruteForce("source/reio/words.txt", "9c8844145a7aeea05a0a8582e3f38b02e759061a0536d2e103607ac5f28b5d88");
+		/* second hashcode */
+		initiateBruteForce("source/reio/words.txt", "b1435b304bf50e05853947ea8c0b5f19ac26bf5f8c8fe5f927b4a744c2443232");
 	}
 	
-	private static void doBruteForce (String filePath, char[] startAndEnd, String hash) {
+	private static void initiateBruteForce (String filePath, String hashcode) {
 		try {
 			Instant start = Instant.now();
-			System.out.println(bruteForce(filePath, startAndEnd, hash));
+			System.out.println(bruteForce(filePath, hashcode));
 			Instant end = Instant.now();
-			Duration d = Duration.between(start, end);
-			System.out.format("passed time: %d milliseconds", d.toMillis());
-		} catch (IOException e) {
+			System.out.format("time in milliseconds: %d", Duration.between(start, end).toMillis());
+		} catch (IOException | NoSuchAlgorithmException e) {
 			System.err.println(e.getMessage());
 		}
 	}
 	
-	private static String bruteForce (String filePath, char[] startAndEnd, String hash) throws IOException {
+	private static String bruteForce (String filePath, String hashcode) throws IOException, NoSuchAlgorithmException {
 		try (BufferedReader br = new BufferedReader(new FileReader(new File(filePath)))) {
-			String word;
 			MessageDigest md = MessageDigest.getInstance("SHA-256");
+			String word;
 			while (br.ready()) {
 				word = br.readLine();
-				for (char c1 : startAndEnd) {
-					for (char c2 : startAndEnd) {
+				for (char c1 : specialCharacters) {
+					for (char c2 : specialCharacters) {
 						md.update((c1 + word + c2).getBytes());
 						byte[] digest = md.digest();
-						if (toHex(digest).equals(hash))
+						if (toHex(digest).equals(hashcode))
 							return c1 + word + c2;
 					}
 				}
 			}
-			return "Error 404: password not found.";
-		} catch (NoSuchAlgorithmException e) {
-			System.err.println(e.getMessage());
-			return "";
 		}
+		throw new InvalidHashcodeException();
 	}
 	
 	private static String toHex (byte[] digest) {
