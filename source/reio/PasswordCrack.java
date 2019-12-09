@@ -1,8 +1,6 @@
 package reio;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.Duration;
@@ -16,11 +14,15 @@ public class PasswordCrack {
 	 * <p>
 	 * first hashcode: 9c8844145a7aeea05a0a8582e3f38b02e759061a0536d2e103607ac5f28b5d88
 	 * solution: !computationally&
-	 * time in ms: 273665
+	 * time in ms on remote: 234659
+	 * time in ms on laptop: 273665
+	 * time in ms on pc: 168847
 	 * <p>
 	 * second hashcode: b1435b304bf50e05853947ea8c0b5f19ac26bf5f8c8fe5f927b4a744c2443232
 	 * solution: )secundoprimary!
-	 * time in ms: 1233569
+	 * time in ms on remote: 1061221
+	 * time in ms on laptop: 1233569
+	 * time in ms on pc: 838803
 	 */
 	public static void main (String[] args) {
 		/* first hashcode */
@@ -34,7 +36,7 @@ public class PasswordCrack {
 			Instant start = Instant.now();
 			System.out.println(bruteForce(filePath, hashcode));
 			Instant end = Instant.now();
-			System.out.format("time in milliseconds: %d", Duration.between(start, end).toMillis());
+			System.out.format("time in milliseconds: %d\n", Duration.between(start, end).toMillis());
 		} catch (IOException | NoSuchAlgorithmException e) {
 			System.err.println(e.getMessage());
 		}
