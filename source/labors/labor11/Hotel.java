@@ -9,23 +9,16 @@ public class Hotel {
 	}
 	
 	static Map<String, Short> readProperties (String filePath) {
-		Map<String, Short> properties = new LinkedHashMap<>();
 		try (DataInputStream dis = new DataInputStream(new FileInputStream(filePath))) {
-			dis.readInt();
-			dis.readInt();
-			short columnCount = dis.readShort(), columnWidth, columnNameSize;
-			byte[] columnName;
-			for (short s = 0; s < columnCount; s++) {
-				columnNameSize = dis.readShort();
-				columnName = new byte[columnNameSize];
-				if (dis.read(columnName) == -1) return null;
-				columnWidth = dis.readShort();
-				properties.put(new String(columnName), columnWidth);
-			}
+			Map<String, Short> properties = new LinkedHashMap<>();
+			dis.skipBytes(8);
+			short columns = dis.readShort();
+			for (short s = 0; s < columns; s++)
+				properties.put(dis.readUTF(), dis.readShort());
+			return properties;
 		} catch (IOException e) {
 			return null;
 		}
-		return properties;
 	}
 	
 	static Set<Hotel> readHotels (String filePath) throws IOException {

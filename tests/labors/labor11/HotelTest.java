@@ -9,29 +9,31 @@ import java.util.*;
 import static org.junit.Assert.*;
 
 public class HotelTest {
-	private static Map<String, Short> getPropertiesMap () {
-		Map<String, Short> ret = new LinkedHashMap<>();
-		ret.put("name", (short) 64);
-		ret.put("location", (short) 64);
-		ret.put("size", (short) 4);
-		ret.put("smoking", (short) 1);
-		ret.put("rate", (short) 8);
-		ret.put("date", (short) 10);
-		ret.put("owner", (short) 8);
-		return ret;
-	}
-	
-	@Test
-	public void readProperties_validFile_properties () throws IOException {
-		Map<String, Short> expected = getPropertiesMap();
-		Map<String, Short> result = Hotel.readProperties("hotels.db");
-		assertNotNull(result);
-		assertEquals(expected.size(), result.size());
-		assertEquals(expected, result);
-		//AbstractMap.equals prüft nicht auf Reihenfolge der Keys
-		assertEquals(new ArrayList<>(expected.entrySet()), new ArrayList<>(result.entrySet()));
-	}
-    /*
+    private static String resourcePath = "resources/labors/labor11/";
+
+    private static Map<String, Short> getPropertiesMap() {
+        Map<String, Short> ret = new LinkedHashMap<>();
+        ret.put("name", (short) 64);
+        ret.put("location", (short) 64);
+        ret.put("size", (short) 4);
+        ret.put("smoking", (short) 1);
+        ret.put("rate", (short) 8);
+        ret.put("date", (short) 10);
+        ret.put("owner", (short) 8);
+        return ret;
+    }
+
+    @Test
+    public void readProperties_validFile_properties() throws IOException {
+        Map<String, Short> expected = getPropertiesMap();
+        Map<String, Short> result = Hotel.readProperties(resourcePath + "hotels.db");
+        assertNotNull(result);
+        assertEquals(expected.size(), result.size());
+        assertEquals(expected, result);
+        //AbstractMap.equals prüft nicht auf Reihenfolge der Keys
+        assertEquals(new ArrayList<>(expected.entrySet()), new ArrayList<>(result.entrySet()));
+    }
+
     @Test
     public void getStartingOffset_validFile_offsetOfFirstHotel() throws IOException {
         int offset = Hotel.getStartingOffset("hotels.db");
@@ -48,7 +50,7 @@ public class HotelTest {
             assertTrue(e.getMessage().contains(filename));
         }
     }
-
+/*
     @Test
     public void readHotels_validFile_allHotels() throws IOException {
         Set<Hotel> result = Hotel.readHotels("hotels.db");
@@ -79,6 +81,5 @@ public class HotelTest {
         byte[] bytes = hotel.getBytes();
         throw new UnsupportedOperationException("TODO");
     }
-    
-     */
+ */
 }
