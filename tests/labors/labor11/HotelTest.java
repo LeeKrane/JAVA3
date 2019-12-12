@@ -36,13 +36,13 @@ public class HotelTest {
 
     @Test
     public void getStartingOffset_validFile_offsetOfFirstHotel() throws IOException {
-        int offset = Hotel.getStartingOffset("hotels.db");
+        int offset = Hotel.getStartingOffset(resourcePath + "hotels.db");
         assertEquals(74, offset);
     }
 
     @Test
     public void readHotels_invalidFile_exception() throws IOException {
-        String filename = "invalid.db";
+        String filename = resourcePath + "invalid.db";
         try {
             Hotel.readHotels(filename);
             fail();
