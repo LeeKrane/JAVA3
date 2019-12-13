@@ -6,9 +6,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 // TODO:
+//  download new Tests and PDF
+//  read hotels without hardcoded property lengths
 //  refactor
 //  write tests
-//  download new Tests and PDF
+
 
 public class Hotel implements Comparable<Hotel> {
 	private String name; // 64 byte
