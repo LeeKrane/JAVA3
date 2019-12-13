@@ -50,10 +50,10 @@ public class HotelTest {
             assertTrue(e.getMessage().contains(filename));
         }
     }
-/*
+
     @Test
     public void readHotels_validFile_allHotels() throws IOException {
-        Set<Hotel> result = Hotel.readHotels("hotels.db");
+        Set<Hotel> result = Hotel.readHotels(resourcePath + "hotels.db");
         assertNotNull(result);
         assertEquals(31, result.size());
         Hotel deleted = new Hotel("Hotel Nr. Eins", "Wien", 4, false, 40_000, LocalDate.of(2018, 12, 10), "Michael");
@@ -67,6 +67,7 @@ public class HotelTest {
         assertEquals(last, sorted.last());
     }
 
+    /*
     @Test
     public void hotelConstructor_state_result() {
         byte[] data = null;
@@ -81,5 +82,5 @@ public class HotelTest {
         byte[] bytes = hotel.getBytes();
         throw new UnsupportedOperationException("TODO");
     }
- */
+     */
 }
