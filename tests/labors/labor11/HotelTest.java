@@ -2,6 +2,8 @@ package labors.labor11;
 
 import org.junit.Test;
 
+import java.io.DataInputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
@@ -75,13 +77,39 @@ public class HotelTest {
         Hotel hotel = new Hotel(data, properties);
         throw new UnsupportedOperationException("TODO");
     }
+     */
     
     @Test
     public void getBytes_state_result() {
-        Hotel hotel = null;
-        Map<String, Short> properties = null;
-        byte[] bytes = hotel.getBytes(properties);
-        throw new UnsupportedOperationException("TODO");
+        try {
+            Map<String, Short> properties = Hotel.readProperties(resourcePath + "hotels.db");
+            int propertySizeSum = Hotel.getPropertySizeSum(properties);
+            byte[] hotelBytes = new byte[propertySizeSum];
+            try (DataInputStream dis = new DataInputStream(new FileInputStream(resourcePath + "hotels.db"))) {
+                dis.skipBytes(4); // skip ID
+                dis.skipBytes(dis.readInt() - 6); // skip to offset byte & skip deleted bytes
+                assertEquals(propertySizeSum, dis.read(hotelBytes));
+                System.out.println(new Hotel(hotelBytes, properties));
+                System.out.println(new Hotel(new Hotel(hotelBytes, properties).getBytes(properties), properties));
+                System.out.println(Arrays.toString(hotelBytes));
+                System.out.println(Arrays.toString(new Hotel(hotelBytes, properties).getBytes(properties)));
+                assertTrue(equalityCheck(hotelBytes, new Hotel(hotelBytes, properties).getBytes(properties)));
+            }
+        } catch (IOException e) {
+            fail();
+        }
     }
-     */
+    
+    private static boolean equalityCheck (byte[] b1, byte[] b2) {
+        System.out.println(b1.length == b2.length);
+        if (b1.length != b2.length)
+            return false;
+        for (int i = 0; i < b1.length; i++) {
+            if (b1[i] != b2[i]) {
+                System.out.println(i);
+                return false;
+            }
+        }
+        return true;
+    }
 }
