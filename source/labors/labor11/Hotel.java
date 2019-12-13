@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 // TODO:
-//  write tests
+//  write constructor test
 
 public class Hotel implements Comparable<Hotel> {
 	private String name; // 64 byte
