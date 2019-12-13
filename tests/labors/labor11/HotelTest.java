@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 
 public class HotelTest {
     private static String resourcePath = "resources/labors/labor11/";
-
+    
     private static Map<String, Short> getPropertiesMap() {
         Map<String, Short> ret = new LinkedHashMap<>();
         ret.put("name", (short) 64);
@@ -22,7 +22,7 @@ public class HotelTest {
         ret.put("owner", (short) 8);
         return ret;
     }
-
+    
     @Test
     public void readProperties_validFile_properties() throws IOException {
         Map<String, Short> expected = getPropertiesMap();
@@ -33,13 +33,13 @@ public class HotelTest {
         //AbstractMap.equals prüft nicht auf Reihenfolge der Keys
         assertEquals(new ArrayList<>(expected.entrySet()), new ArrayList<>(result.entrySet()));
     }
-
+    
     @Test
     public void getStartingOffset_validFile_offsetOfFirstHotel() throws IOException {
         int offset = Hotel.getStartingOffset(resourcePath + "hotels.db");
         assertEquals(74, offset);
     }
-
+    
     @Test
     public void readHotels_invalidFile_exception() throws IOException {
         String filename = resourcePath + "invalid.db";
@@ -50,7 +50,7 @@ public class HotelTest {
             assertTrue(e.getMessage().contains(filename));
         }
     }
-
+    
     @Test
     public void readHotels_validFile_allHotels() throws IOException {
         Set<Hotel> result = Hotel.readHotels(resourcePath + "hotels.db");
@@ -60,13 +60,13 @@ public class HotelTest {
         Hotel contained = new Hotel("Mausefalle", "Krems", 36, true, 10_000, LocalDate.of(2019, 11, 12), "MAUS");
         assertTrue(result.contains(contained));
         assertFalse(result.contains(deleted));
-        Hotel first = new Hotel("Bed & Breakfast & Business", "Atlantis", 4, false, 19_000, LocalDate.of(2003, 10, 05), "");
+        Hotel first = new Hotel("Bed & Breakfast & Business", "Atlantis", 4, false, 19_000, LocalDate.of(2003, 10, 5), "");
         SortedSet<Hotel> sorted = (SortedSet<Hotel>) result;
         assertEquals(first, sorted.first());
-        Hotel last = new Hotel("Dew Drop Inn", "Xanadu", 4, true, 20_000, LocalDate.of(2003, 01, 19), "");
+        Hotel last = new Hotel("Dew Drop Inn", "Xanadu", 4, true, 20_000, LocalDate.of(2003, 1, 19), "");
         assertEquals(last, sorted.last());
     }
-
+    
     /*
     @Test
     public void hotelConstructor_state_result() {
@@ -75,11 +75,12 @@ public class HotelTest {
         Hotel hotel = new Hotel(data, properties);
         throw new UnsupportedOperationException("TODO");
     }
-
+    
     @Test
     public void getBytes_state_result() {
         Hotel hotel = null;
-        byte[] bytes = hotel.getBytes();
+        Map<String, Short> properties = null;
+        byte[] bytes = hotel.getBytes(properties);
         throw new UnsupportedOperationException("TODO");
     }
      */

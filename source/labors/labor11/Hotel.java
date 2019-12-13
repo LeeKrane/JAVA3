@@ -6,7 +6,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 // TODO:
-//  download new Tests and PDF
 //  read hotels without hardcoded property lengths
 //  refactor
 //  write tests
