@@ -26,7 +26,7 @@ public class HotelTest {
     }
     
     @Test
-    public void readProperties_validFile_properties() throws IOException {
+    public void readProperties_validFile_properties() {
         Map<String, Short> expected = getPropertiesMap();
         Map<String, Short> result = Hotel.readProperties(resourcePath + "hotels.db");
         assertNotNull(result);
@@ -69,15 +69,17 @@ public class HotelTest {
         assertEquals(last, sorted.last());
     }
     
-    /*
     @Test
     public void hotelConstructor_state_result() {
-        byte[] data = null;
-        Map<String, Short> properties = null;
-        Hotel hotel = new Hotel(data, properties);
-        throw new UnsupportedOperationException("TODO");
+        try {
+            new Hotel(null, null);
+            fail();
+        } catch (IllegalArgumentException ignored) {}
+        Map<String, Short> properties = Hotel.readProperties(resourcePath + "hotels.db");
+        Hotel expected = new Hotel("Mausefalle", "Krems", 36, true, 10_000, LocalDate.of(2019, 11, 12), "MAUS");
+        Hotel actual = new Hotel(expected.getBytes(properties), properties);
+        assertEquals(expected, actual);
     }
-     */
     
     @Test
     public void getBytes_state_result() {
@@ -89,10 +91,6 @@ public class HotelTest {
                 dis.skipBytes(4); // skip ID
                 dis.skipBytes(dis.readInt() - 6); // skip to offset byte & skip deleted bytes
                 assertEquals(propertySizeSum, dis.read(hotelBytes));
-                System.out.println(new Hotel(hotelBytes, properties));
-                System.out.println(new Hotel(new Hotel(hotelBytes, properties).getBytes(properties), properties));
-                System.out.println(Arrays.toString(hotelBytes));
-                System.out.println(Arrays.toString(new Hotel(hotelBytes, properties).getBytes(properties)));
                 assertTrue(equalityCheck(hotelBytes, new Hotel(hotelBytes, properties).getBytes(properties)));
             }
         } catch (IOException e) {

@@ -18,7 +18,8 @@ public class Hotel implements Comparable<Hotel> {
 	private String owner; // 8 byte
 	
 	Hotel (byte[] data, Map<String, Short> properties) {
-		try (DataInputStream dis = new DataInputStream(new ByteArrayInputStream(data))) {
+		if (data == null || properties == null) throw new IllegalArgumentException("data/properties must not be null!");
+		try (DataInputStream dis = new DataInputStream(new BufferedInputStream(new ByteArrayInputStream(data)))) {
 			name = new String(dis.readNBytes(properties.get("name"))).trim();
 			location = new String(dis.readNBytes(properties.get("location"))).trim();
 			size = Integer.parseInt(new String(dis.readNBytes(properties.get("size"))).trim());
@@ -42,7 +43,7 @@ public class Hotel implements Comparable<Hotel> {
 	}
 	
 	static Map<String, Short> readProperties (String filePath) {
-		try (DataInputStream dis = new DataInputStream(new FileInputStream(filePath))) {
+		try (DataInputStream dis = new DataInputStream(new BufferedInputStream(new FileInputStream(filePath)))) {
 			Map<String, Short> properties = new LinkedHashMap<>();
 			dis.skipBytes(8); // skip ID & offset
 			short columns = dis.readShort();
@@ -82,38 +83,14 @@ public class Hotel implements Comparable<Hotel> {
 	byte[] getBytes (Map<String, Short> properties) {
 		int read = 0;
 		byte[] bytes = new byte[getPropertySizeSum(properties)];
-		for (byte b : fillWithWhitespaces(name, properties.get("name")).getBytes()) {
-			bytes[read] = b;
-			read++;
-		}
-		for (byte b : fillWithWhitespaces(location, properties.get("location")).getBytes()) {
-			bytes[read] = b;
-			read++;
-		}
-		for (byte b : fillWithWhitespaces(Integer.toString(size), properties.get("size")).getBytes()) {
-			bytes[read] = b;
-			read++;
-		}
-		for (byte b : (smoking ? "Y" : "N").getBytes()) {
-			bytes[read] = b;
-			read++;
-		}
-		for (byte b : "$".getBytes()) {
-			bytes[read] = b;
-			read++;
-		}
-		for (byte b : fillWithWhitespaces(String.format("%.2f", ((double) rate / 100)).replace(',', '.'), properties.get("rate") - "$".getBytes().length).getBytes()) {
-			bytes[read] = b;
-			read++;
-		}
-		for (byte b : fillWithWhitespaces(String.format("%04d/%02d/%02d", date.getYear(), date.getMonthValue(), date.getDayOfMonth()), properties.get("date")).getBytes()) {
-			bytes[read] = b;
-			read++;
-		}
-		for (byte b : fillWithWhitespaces(owner, properties.get("owner")).getBytes()) {
-			bytes[read] = b;
-			read++;
-		}
+		for (byte b : fillWithWhitespaces(name, properties.get("name")).getBytes()) { bytes[read] = b; read++; }
+		for (byte b : fillWithWhitespaces(location, properties.get("location")).getBytes()) { bytes[read] = b; read++; }
+		for (byte b : fillWithWhitespaces(Integer.toString(size), properties.get("size")).getBytes()) { bytes[read] = b; read++; }
+		for (byte b : (smoking ? "Y" : "N").getBytes()) { bytes[read] = b; read++; }
+		for (byte b : "$".getBytes()) { bytes[read] = b; read++; }
+		for (byte b : fillWithWhitespaces(String.format("%.2f", ((double) rate / 100)).replace(',', '.'), properties.get("rate") - "$".getBytes().length).getBytes()) { bytes[read] = b; read++; }
+		for (byte b : fillWithWhitespaces(String.format("%04d/%02d/%02d", date.getYear(), date.getMonthValue(), date.getDayOfMonth()), properties.get("date")).getBytes()) { bytes[read] = b; read++; }
+		for (byte b : fillWithWhitespaces(owner, properties.get("owner")).getBytes()) { bytes[read] = b; read++; }
 		return bytes;
 	}
 	
@@ -122,7 +99,7 @@ public class Hotel implements Comparable<Hotel> {
 	}
 	
 	static int getStartingOffset (String filePath) throws IOException {
-		try (DataInputStream dis = new DataInputStream(new FileInputStream(filePath))) {
+		try (DataInputStream dis = new DataInputStream(new BufferedInputStream(new FileInputStream(filePath)))) {
 			dis.skipBytes(4); // skip ID
 			return dis.readInt(); // return offset
 		}
