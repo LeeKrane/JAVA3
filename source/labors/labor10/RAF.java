@@ -101,21 +101,4 @@ public class RAF {
 		}
 		return numberMap;
 	}
-	
-	/*
-	static Map<String, Set<Number>> groupByType (List<? extends Number> numbers) {
-		Map<String, Set<Number>> numberMap = new TreeMap<>();
-		Set<Number> integerSet = new HashSet<>();
-		Set<Number> doubleSet = new HashSet<>();
-		for (Number number : numbers) {
-			if (number instanceof Integer)
-				integerSet.add(number);
-			else if (number instanceof Double)
-				doubleSet.add(number);
-		}
-		numberMap.put("Integer", integerSet);
-		numberMap.put("Double", doubleSet);
-		return numberMap;
-	}
-	 */
 }
