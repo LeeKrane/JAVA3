@@ -5,6 +5,10 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.*;
 
+/**
+ * @author LeeKrane
+ */
+
 public class RAF {
 	// 1 RandomAccessFile
 	static void createFile (String filePath, double... values) throws IOException {
@@ -63,8 +67,7 @@ public class RAF {
 						raf.readInt();
 					else
 						raf.readDouble();
-				}
-				catch (EOFException e) {
+				} catch (EOFException e) {
 					return false;
 				}
 			}
