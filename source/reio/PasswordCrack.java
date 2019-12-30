@@ -16,13 +16,15 @@ public class PasswordCrack {
 	 * solution: !computationally&
 	 * time in ms on remote: 234659
 	 * time in ms on laptop: 273665
-	 * time in ms on pc: 168847
+	 * time in ms on old pc (i5): 168847
+	 * time in ms on new pc (i9): 98416
 	 * <p>
 	 * second hashcode: b1435b304bf50e05853947ea8c0b5f19ac26bf5f8c8fe5f927b4a744c2443232
 	 * solution: )secundoprimary!
 	 * time in ms on remote: 1061221
 	 * time in ms on laptop: 1233569
-	 * time in ms on pc: 838803
+	 * time in ms on old pc (i5): 838803
+	 * time in ms on new pc (i9): 429256
 	 */
 	public static void main (String[] args) {
 		/* first hashcode */
