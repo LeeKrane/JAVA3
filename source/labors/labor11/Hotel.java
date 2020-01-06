@@ -58,6 +58,8 @@ public class Hotel implements Comparable<Hotel> {
 	}
 	
 	static Set<Hotel> readHotels (String filePath) throws IOException {
+		final int VALID = 0x0000;
+		final int INVALID = 0x8000;
 		try (DataInputStream dis = new DataInputStream(new FileInputStream(filePath))) {
 			Map<String, Short> properties = readProperties(filePath);
 			Set<Hotel> hotels = new TreeSet<>();
@@ -67,11 +69,11 @@ public class Hotel implements Comparable<Hotel> {
 			while (dis.available() >= propertySizeSum + 2) {
 				int deleted = dis.readUnsignedShort();
 				switch (deleted) {
-					case 0x0000:
+					case VALID:
 						//System.out.println(new String(dis.readNBytes(propertySizeSum)));
 						hotels.add(new Hotel(dis.readNBytes(propertySizeSum), properties));
 						break;
-					case 0x8000:
+					case INVALID:
 						dis.skipBytes(propertySizeSum);
 						break;
 					default:
@@ -82,8 +84,7 @@ public class Hotel implements Comparable<Hotel> {
 		}
 	}
 	
-	byte[] getBytes (Map<String, Short> properties) {
-		byte[] bytes = new byte[getPropertySizeSum(properties)];
+	byte[] getBytes (Map<String, Short> properties) throws IOException {
 		try (ByteArrayOutputStream os = new ByteArrayOutputStream(getPropertySizeSum(properties))) {
 			os.write(fillWithWhitespaces(name, properties.get("name")).getBytes());
 			os.write(fillWithWhitespaces(location, properties.get("location")).getBytes());
@@ -93,28 +94,9 @@ public class Hotel implements Comparable<Hotel> {
 			os.write(fillWithWhitespaces(String.format("%.2f", ((double) rate / 100)).replace(',', '.'), properties.get("rate") - "$".getBytes().length).getBytes());
 			os.write(fillWithWhitespaces(String.format("%04d/%02d/%02d", date.getYear(), date.getMonthValue(), date.getDayOfMonth()), properties.get("date")).getBytes());
 			os.write(fillWithWhitespaces(owner, properties.get("owner")).getBytes());
-			bytes = os.toByteArray();
-		} catch (IOException e) {
-			e.printStackTrace();
+			return os.toByteArray();
 		}
-		return bytes;
 	}
-	
-	/* old non-fancy variant:
-	byte[] getBytes (Map<String, Short> properties) {
-		int read = 0;
-		byte[] bytes = new byte[getPropertySizeSum(properties)];
-		for (byte b : fillWithWhitespaces(name, properties.get("name")).getBytes()) { bytes[read] = b; read++; }
-		for (byte b : fillWithWhitespaces(location, properties.get("location")).getBytes()) { bytes[read] = b; read++; }
-		for (byte b : fillWithWhitespaces(Integer.toString(size), properties.get("size")).getBytes()) { bytes[read] = b; read++; }
-		for (byte b : (smoking ? "Y" : "N").getBytes()) { bytes[read] = b; read++; }
-		for (byte b : "$".getBytes()) { bytes[read] = b; read++; }
-		for (byte b : fillWithWhitespaces(String.format("%.2f", ((double) rate / 100)).replace(',', '.'), properties.get("rate") - "$".getBytes().length).getBytes()) { bytes[read] = b; read++; }
-		for (byte b : fillWithWhitespaces(String.format("%04d/%02d/%02d", date.getYear(), date.getMonthValue(), date.getDayOfMonth()), properties.get("date")).getBytes()) { bytes[read] = b; read++; }
-		for (byte b : fillWithWhitespaces(owner, properties.get("owner")).getBytes()) { bytes[read] = b; read++; }
-		return bytes;
-	}
-	 */
 	
 	static String fillWithWhitespaces (String fill, int length) {
 		return fill + " ".repeat(Math.max(0, length - fill.length()));

@@ -81,7 +81,12 @@ public class HotelTest {
         }
         Map<String, Short> properties = Hotel.readProperties(resourcePath + "hotels.db");
         Hotel expected = new Hotel("Mausefalle", "Krems", 36, true, 10_000, LocalDate.of(2019, 11, 12), "MAUS");
-        Hotel actual = new Hotel(expected.getBytes(properties), properties);
+        Hotel actual = null;
+        try {
+            actual = new Hotel(expected.getBytes(properties), properties);
+        } catch (IOException e) {
+            fail();
+        }
         assertEquals(expected, actual);
     }
     
