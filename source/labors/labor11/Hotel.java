@@ -82,6 +82,25 @@ public class Hotel implements Comparable<Hotel> {
 	}
 	
 	byte[] getBytes (Map<String, Short> properties) {
+		byte[] bytes = new byte[getPropertySizeSum(properties)];
+		try (ByteArrayOutputStream os = new ByteArrayOutputStream(getPropertySizeSum(properties))) {
+			os.write(fillWithWhitespaces(name, properties.get("name")).getBytes());
+			os.write(fillWithWhitespaces(location, properties.get("location")).getBytes());
+			os.write(fillWithWhitespaces(Integer.toString(size), properties.get("size")).getBytes());
+			os.write((smoking ? "Y" : "N").getBytes());
+			os.write("$".getBytes());
+			os.write(fillWithWhitespaces(String.format("%.2f", ((double) rate / 100)).replace(',', '.'), properties.get("rate") - "$".getBytes().length).getBytes());
+			os.write(fillWithWhitespaces(String.format("%04d/%02d/%02d", date.getYear(), date.getMonthValue(), date.getDayOfMonth()), properties.get("date")).getBytes());
+			os.write(fillWithWhitespaces(owner, properties.get("owner")).getBytes());
+			bytes = os.toByteArray();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return bytes;
+	}
+	
+	/* old non-fancy variant:
+	byte[] getBytes (Map<String, Short> properties) {
 		int read = 0;
 		byte[] bytes = new byte[getPropertySizeSum(properties)];
 		for (byte b : fillWithWhitespaces(name, properties.get("name")).getBytes()) { bytes[read] = b; read++; }
@@ -94,6 +113,7 @@ public class Hotel implements Comparable<Hotel> {
 		for (byte b : fillWithWhitespaces(owner, properties.get("owner")).getBytes()) { bytes[read] = b; read++; }
 		return bytes;
 	}
+	 */
 	
 	static String fillWithWhitespaces (String fill, int length) {
 		return fill + " ".repeat(Math.max(0, length - fill.length()));
