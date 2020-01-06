@@ -10,13 +10,14 @@ import java.util.*;
  */
 
 public class Hotel implements Comparable<Hotel> {
-	private String name; // 64 byte
-	private String location; // 64 byte
-	private int size; // 4 byte
-	private boolean smoking; // 1 byte
-	private long rate; // 8 byte
-	private LocalDate date; // 10 byte
-	private String owner; // 8 byte
+	private String name; // 64 bytes
+	private String location; // 64 bytes
+	private int size; // 4 bytes
+	private boolean smoking; // 1 bytes
+	private long rate; // 8 bytes
+	private LocalDate date; // 10 bytes
+	private String owner; // 8 bytes
+	// 159 bytes in total
 	
 	Hotel (byte[] data, Map<String, Short> properties) {
 		if (data == null || properties == null) throw new IllegalArgumentException("data/properties must not be null!");
