@@ -103,26 +103,10 @@ public class HotelTest {
                 dis.skipBytes(4); // skip ID
                 dis.skipBytes(dis.readInt() - 6); // skip to offset byte & skip deleted bytes
                 assertEquals(propertySizeSum, dis.read(hotelBytes));
-                assertTrue(equalityCheck(hotelBytes, new Hotel(hotelBytes, properties).getBytes(properties)));
+                assertArrayEquals(hotelBytes, new Hotel(hotelBytes, properties).getBytes(properties));
             }
         } catch (IOException e) {
             fail();
         }
-    }
-    
-    /**
-     * @author LeeKrane
-     */
-    private static boolean equalityCheck (byte[] b1, byte[] b2) {
-        System.out.println(b1.length == b2.length);
-        if (b1.length != b2.length)
-            return false;
-        for (int i = 0; i < b1.length; i++) {
-            if (b1[i] != b2[i]) {
-                System.out.println(i);
-                return false;
-            }
-        }
-        return true;
     }
 }
