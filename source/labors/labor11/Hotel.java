@@ -5,17 +5,19 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-// TODO:
-//  write constructor test
+/**
+ * @author LeeKrane
+ */
 
 public class Hotel implements Comparable<Hotel> {
-	private String name; // 64 byte
-	private String location; // 64 byte
-	private int size; // 4 byte
-	private boolean smoking; // 1 byte
-	private long rate; // 8 byte
-	private LocalDate date; // 10 byte
-	private String owner; // 8 byte
+	private String name; // 64 bytes
+	private String location; // 64 bytes
+	private int size; // 4 bytes
+	private boolean smoking; // 1 bytes
+	private long rate; // 8 bytes
+	private LocalDate date; // 10 bytes
+	private String owner; // 8 bytes
+	// 159 bytes in total
 	
 	Hotel (byte[] data, Map<String, Short> properties) {
 		if (data == null || properties == null) throw new IllegalArgumentException("data/properties must not be null!");
@@ -56,6 +58,8 @@ public class Hotel implements Comparable<Hotel> {
 	}
 	
 	static Set<Hotel> readHotels (String filePath) throws IOException {
+		final int VALID = 0x0000;
+		final int INVALID = 0x8000;
 		try (DataInputStream dis = new DataInputStream(new FileInputStream(filePath))) {
 			Map<String, Short> properties = readProperties(filePath);
 			Set<Hotel> hotels = new TreeSet<>();
@@ -65,11 +69,11 @@ public class Hotel implements Comparable<Hotel> {
 			while (dis.available() >= propertySizeSum + 2) {
 				int deleted = dis.readUnsignedShort();
 				switch (deleted) {
-					case 0x0000:
+					case VALID:
 						//System.out.println(new String(dis.readNBytes(propertySizeSum)));
 						hotels.add(new Hotel(dis.readNBytes(propertySizeSum), properties));
 						break;
-					case 0x8000:
+					case INVALID:
 						dis.skipBytes(propertySizeSum);
 						break;
 					default:
@@ -80,18 +84,18 @@ public class Hotel implements Comparable<Hotel> {
 		}
 	}
 	
-	byte[] getBytes (Map<String, Short> properties) {
-		int read = 0;
-		byte[] bytes = new byte[getPropertySizeSum(properties)];
-		for (byte b : fillWithWhitespaces(name, properties.get("name")).getBytes()) { bytes[read] = b; read++; }
-		for (byte b : fillWithWhitespaces(location, properties.get("location")).getBytes()) { bytes[read] = b; read++; }
-		for (byte b : fillWithWhitespaces(Integer.toString(size), properties.get("size")).getBytes()) { bytes[read] = b; read++; }
-		for (byte b : (smoking ? "Y" : "N").getBytes()) { bytes[read] = b; read++; }
-		for (byte b : "$".getBytes()) { bytes[read] = b; read++; }
-		for (byte b : fillWithWhitespaces(String.format("%.2f", ((double) rate / 100)).replace(',', '.'), properties.get("rate") - "$".getBytes().length).getBytes()) { bytes[read] = b; read++; }
-		for (byte b : fillWithWhitespaces(String.format("%04d/%02d/%02d", date.getYear(), date.getMonthValue(), date.getDayOfMonth()), properties.get("date")).getBytes()) { bytes[read] = b; read++; }
-		for (byte b : fillWithWhitespaces(owner, properties.get("owner")).getBytes()) { bytes[read] = b; read++; }
-		return bytes;
+	byte[] getBytes (Map<String, Short> properties) throws IOException {
+		try (ByteArrayOutputStream os = new ByteArrayOutputStream(getPropertySizeSum(properties))) {
+			os.write(fillWithWhitespaces(name, properties.get("name")).getBytes());
+			os.write(fillWithWhitespaces(location, properties.get("location")).getBytes());
+			os.write(fillWithWhitespaces(Integer.toString(size), properties.get("size")).getBytes());
+			os.write((smoking ? "Y" : "N").getBytes());
+			os.write("$".getBytes());
+			os.write(fillWithWhitespaces(String.format("%.2f", ((double) rate / 100)).replace(',', '.'), properties.get("rate") - "$".getBytes().length).getBytes());
+			os.write(fillWithWhitespaces(String.format("%04d/%02d/%02d", date.getYear(), date.getMonthValue(), date.getDayOfMonth()), properties.get("date")).getBytes());
+			os.write(fillWithWhitespaces(owner, properties.get("owner")).getBytes());
+			return os.toByteArray();
+		}
 	}
 	
 	static String fillWithWhitespaces (String fill, int length) {

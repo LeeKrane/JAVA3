@@ -5,6 +5,10 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.*;
 
+/**
+ * @author LeeKrane
+ */
+
 public class RAF {
 	// 1 RandomAccessFile
 	static void createFile (String filePath, double... values) throws IOException {
@@ -63,8 +67,7 @@ public class RAF {
 						raf.readInt();
 					else
 						raf.readDouble();
-				}
-				catch (EOFException e) {
+				} catch (EOFException e) {
 					return false;
 				}
 			}
@@ -98,21 +101,4 @@ public class RAF {
 		}
 		return numberMap;
 	}
-	
-	/*
-	static Map<String, Set<Number>> groupByType (List<? extends Number> numbers) {
-		Map<String, Set<Number>> numberMap = new TreeMap<>();
-		Set<Number> integerSet = new HashSet<>();
-		Set<Number> doubleSet = new HashSet<>();
-		for (Number number : numbers) {
-			if (number instanceof Integer)
-				integerSet.add(number);
-			else if (number instanceof Double)
-				doubleSet.add(number);
-		}
-		numberMap.put("Integer", integerSet);
-		numberMap.put("Double", doubleSet);
-		return numberMap;
-	}
-	 */
 }
