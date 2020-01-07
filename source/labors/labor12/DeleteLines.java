@@ -5,6 +5,10 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * @author LeeKrane
+ */
+
 public class DeleteLines {
 	public static void main (String[] args) {
 		if (!args[3].matches("(\\d+-\\d+)|\\d+"))

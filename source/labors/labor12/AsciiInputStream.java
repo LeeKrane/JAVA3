@@ -2,6 +2,10 @@ package labors.labor12;
 
 import java.io.*;
 
+/**
+ * @author LeeKrane
+ */
+
 public class AsciiInputStream extends FileInputStream {
 	public AsciiInputStream (String name) throws FileNotFoundException {
 		super(name);
