@@ -54,3 +54,29 @@ public class DeleteLines {
 		return builder.toString();
 	}
 }
+
+class AsciiInputStream extends FileInputStream {
+	public AsciiInputStream (String name) throws FileNotFoundException {
+		super(name);
+	}
+	
+	public AsciiInputStream (File file) throws FileNotFoundException {
+		super(file);
+	}
+	
+	public String readLine () throws IOException {
+		StringBuilder builder = new StringBuilder();
+		int character;
+		while ((character = read()) != -1) {
+			if (character == '\n')
+				break;
+			builder.append((char) character);
+		}
+		return builder.toString();
+	}
+	
+	public void skipLines (long toSkip) throws IOException {
+		for (int i = 0; i < toSkip; i++)
+			readLine();
+	}
+}
