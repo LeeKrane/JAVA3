@@ -11,7 +11,7 @@ import java.util.*;
 import static org.junit.Assert.*;
 
 public class HotelTest {
-    private static String resourcePath = "resources/labors/labor11/";
+    private static String resourcePath = "res/labors/labor11/";
     
     private static Map<String, Short> getPropertiesMap() {
         Map<String, Short> ret = new LinkedHashMap<>();

@@ -28,7 +28,7 @@ public class Diceware {
 	}
 	
 	private static String getRandomPassword () throws IOException {
-		Map<Integer, String> passwordMap = getDiceWarePairs("resources/labors/labor08/diceware_german.txt");
+		Map<Integer, String> passwordMap = getDiceWarePairs("res/labors/labor08/diceware_german.txt");
 		Random random = new Random();
 		String[] generatedWords = new String[5];
 		String newGeneratedWord;

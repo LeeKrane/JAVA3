@@ -1,9 +1,6 @@
 package labors.labor12;
 
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 /**
  * @author LeeKrane
@@ -28,22 +25,32 @@ public class DeleteLines {
 	}
 	
 	private static void export (String filename, String output) throws IOException {
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
-			writer.write(output);
+		try (FileOutputStream fos = new FileOutputStream(filename)) {
+			fos.write(output.getBytes());
 		}
 	}
 	
-	private static String readFromFile (AsciiInputStream inputStream, String filename, int notIncludeEnd) throws IOException {
-		return readFromFile(inputStream, filename, 0, notIncludeEnd);
+	private static String readFromFile (AsciiInputStream inputStream, String filename, int exclude) throws IOException {
+		StringBuilder builder = new StringBuilder();
+		inputStream.skipLines(exclude);
+		builder.append(inputStream.readLine());
+		while (inputStream.available() > 0) {
+			builder.append('\n').append(inputStream.readLine());
+		}
+		return builder.toString();
 	}
 	
-	private static String readFromFile (AsciiInputStream inputStream, String filename, int notIncludeStart, int notIncludeEnd) throws IOException {
+	private static String readFromFile (AsciiInputStream inputStream, String filename, int excludeStart, int excludeEnd) throws IOException {
+		if (excludeStart >= excludeEnd)
+			return new String(inputStream.readAllBytes());
 		StringBuilder builder = new StringBuilder();
-		for (int i = 0; i < notIncludeStart; i++)
-			builder.append(inputStream.readLine()).append('\n');
-		inputStream.skipLines(notIncludeEnd - notIncludeStart);
+		if (excludeStart > 0)
+			builder.append(inputStream.readLine());
+		for (int i = 1; i < excludeStart; i++)
+			builder.append('\n').append(inputStream.readLine());
+		inputStream.skipLines(excludeEnd - excludeStart);
 		while (inputStream.available() > 0)
-			builder.append(inputStream.readLine()).append('\n');
+			builder.append('\n').append(inputStream.readLine());
 		return builder.toString();
 	}
 }

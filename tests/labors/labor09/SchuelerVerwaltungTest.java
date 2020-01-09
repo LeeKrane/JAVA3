@@ -16,7 +16,7 @@ public class SchuelerVerwaltungTest {
 
     public SchuelerVerwaltungTest() {
         try {
-            verwaltung = new SchuelerVerwaltung("resources/labors/labor09/Schueler_SortName.csv");
+            verwaltung = new SchuelerVerwaltung("res/labors/labor09/Schueler_SortName.csv");
         } catch (IOException ex) {
             System.err.println("File not found. Should be in project root directory. ");
         }

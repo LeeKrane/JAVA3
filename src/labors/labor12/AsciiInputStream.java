@@ -1,6 +1,7 @@
 package labors.labor12;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @author LeeKrane
@@ -18,8 +19,11 @@ public class AsciiInputStream extends FileInputStream {
 	public String readLine () throws IOException {
 		StringBuilder builder = new StringBuilder();
 		char c;
-		while ((c = (char) read()) != -1 && c != '\n')
+		while ((c = (char) read()) != (char) -1) {
+			if (c == '\n')
+				break;
 			builder.append(c);
+		}
 		return builder.toString();
 	}
 	

@@ -16,7 +16,7 @@ import java.util.TreeSet;
 import static org.junit.Assert.*;
 
 public class RAFTest {
-	private static final String resourcePath = "resources/labors/labor10/";
+	private static final String resourcePath = "res/labors/labor10/";
 	
 	@AfterClass
 	public static void deleteTestFiles () throws IOException {
