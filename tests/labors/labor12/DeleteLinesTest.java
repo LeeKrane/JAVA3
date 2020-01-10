@@ -7,6 +7,8 @@ import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
+// TODO: rewrite test
+
 public class DeleteLinesTest {
 	private static String inputFile = "res/labors/labor12/input.txt";
 	private static String outputFile = "res/labors/labor12/output.txt";
