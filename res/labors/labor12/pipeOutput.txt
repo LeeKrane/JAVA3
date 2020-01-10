@@ -1,6 +1,7 @@
-helo
-dis
-is
-it
-ma
-bois
+build project.
+in command prompt:
+cd <project-path>\out\production\JAVA3
+java labors.labor12.Pipe
+write text.
+press ctrl+z
+press ctrl+c

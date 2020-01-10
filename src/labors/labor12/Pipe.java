@@ -7,7 +7,7 @@ public class Pipe {
 		try {
 			PipedOutputStream pipedOutputStream = new PipedOutputStream();
 			PipedInputStream pipedInputStream = new PipedInputStream(pipedOutputStream);
-			FileOutputStream fileOutputStream = new FileOutputStream("C:\\Data\\IntelliJ\\Projects\\JAVA3\\res\\labors\\labor12\\pipeOutput.txt");
+			FileOutputStream fileOutputStream = new FileOutputStream("out/production/JAVA3/labors/labor12/pipeOutput.txt");
 			copySingleByte(System.in, pipedOutputStream);
 			copyBuffer(pipedInputStream, fileOutputStream, 4);
 		} catch (IOException e) {
