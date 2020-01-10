@@ -7,21 +7,24 @@ import java.io.*;
  */
 
 public class Pipe {
-	/*
-	build project.
+	/* instructions:
+	build project,
 	in command prompt:
 	cd <project-path>\out\production\JAVA3
-	java labors.labor12.Pipe
-	write text.
-	press ctrl+z
-	press ctrl+c
+	java labors.labor12.Pipe labors\labor12\pipeOutput.txt
+	write text,
+	press ctrl+z,
+	press ctrl+c.
 	 */
-	
 	public static void main (String[] args) {
+		if (args.length != 1) {
+			System.err.println("Error: wrong input.\nArguments: <output filename>");
+			System.exit(1);
+		}
 		try {
 			PipedOutputStream pipedOutputStream = new PipedOutputStream();
 			PipedInputStream pipedInputStream = new PipedInputStream(pipedOutputStream);
-			FileOutputStream fileOutputStream = new FileOutputStream("out/production/JAVA3/labors/labor12/pipeOutput.txt");
+			FileOutputStream fileOutputStream = new FileOutputStream(args[0]);
 			copySingleByte(System.in, pipedOutputStream);
 			copyBuffer(pipedInputStream, fileOutputStream, 4);
 		} catch (IOException e) {

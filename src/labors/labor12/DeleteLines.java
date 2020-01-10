@@ -12,10 +12,7 @@ public class DeleteLines {
 	public static void main (String[] args) {
 		Set<Integer> excludedLines = new TreeSet<>();
 		String[] split;
-		System.out.println(args.length);
-		for (int i = 3; i < args.length; i++) {
-			if (!args[i].matches("(\\d+-\\d+)|\\d+"))
-				wrongInputErrorDisplay();
+		for (int i = 2; i < args.length; i++) {
 			if (args[i].matches("\\d+-\\d+")) {
 				split = args[i].split("-");
 				for (int j = Integer.parseInt(split[0]); j <= Integer.parseInt(split[1]); j++)
@@ -25,19 +22,19 @@ public class DeleteLines {
 				excludedLines.add(Integer.parseInt(args[i]));
 			else
 				wrongInputErrorDisplay();
-			try (AsciiInputStream inputStream = new AsciiInputStream(args[1])) {
-				export(args[2], deleteLines(inputStream, excludedLines));
+			try (AsciiInputStream inputStream = new AsciiInputStream(args[0])) {
+				export(args[1], deleteLines(inputStream, excludedLines));
 			} catch (FileNotFoundException e) {
-				System.err.println("The file " + args[1] + " was not found.");
+				System.err.println("The file " + args[0] + " was not found.");
 			} catch (IOException e) {
 				System.err.println(e.getMessage());
 			}
 		}
-		if (args.length == 3) {
-			try (AsciiInputStream inputStream = new AsciiInputStream(args[1])) {
-				export(args[2], new String(inputStream.readAllBytes()));
+		if (args.length == 2) {
+			try (AsciiInputStream inputStream = new AsciiInputStream(args[0])) {
+				export(args[1], new String(inputStream.readAllBytes()));
 			} catch (FileNotFoundException e) {
-				System.err.println("The file " + args[1] + " was not found.");
+				System.err.println("The file " + args[0] + " was not found.");
 			} catch (IOException e) {
 				System.err.println(e.getMessage());
 			}
@@ -72,7 +69,7 @@ public class DeleteLines {
 	}
 	
 	private static void wrongInputErrorDisplay () {
-		System.err.println("Error: wrong input.\nCommand: " + DeleteLines.class.getSimpleName() + " <input filename> <output filename> <<startLine-endLine>|<line>>+");
+		System.err.println("Error: wrong input.\nArguments: <input filename> <output filename> <<startLine-endLine>|<line>>+");
 		System.exit(1);
 	}
 }

@@ -16,7 +16,7 @@ public class DeleteLinesTest {
 	
 	@Test
 	public void deleteZeroLinesTest () {
-		DeleteLines.main(new String[] {"DeleteLines", inputFile, outputFile});
+		DeleteLines.main(new String[] {inputFile, outputFile});
 		try (AsciiInputStream input = new AsciiInputStream(inputFile); AsciiInputStream output = new AsciiInputStream(outputFile)) {
 			assertArrayEquals(input.readAllBytes(), output.readAllBytes());
 		} catch (IOException e) {
@@ -26,14 +26,14 @@ public class DeleteLinesTest {
 	
 	@Test
 	public void deleteSingleLineTest () {
-		DeleteLines.main(new String[] {"DeleteLines", inputFile, outputFile, "0"});
+		DeleteLines.main(new String[] {inputFile, outputFile, "0"});
 		try (AsciiInputStream input = new AsciiInputStream(inputFile); AsciiInputStream output = new AsciiInputStream(outputFile)) {
 			input.skipLine();
 			assertArrayEquals(input.readAllBytes(), output.readAllBytes());
 		} catch (IOException e) {
 			fail();
 		}
-		DeleteLines.main(new String[] {"DeleteLines", inputFile, outputFile, "7"});
+		DeleteLines.main(new String[] {inputFile, outputFile, "7"});
 		try (AsciiInputStream input = new AsciiInputStream(inputFile); AsciiInputStream output = new AsciiInputStream(outputFile)) {
 			for (int i = 0; i < 7; i++)
 				assertEquals(input.readLine(), output.readLine());
@@ -42,7 +42,7 @@ public class DeleteLinesTest {
 		} catch (IOException e) {
 			fail();
 		}
-		DeleteLines.main(new String[] {"DeleteLines", inputFile, outputFile, "14"});
+		DeleteLines.main(new String[] {inputFile, outputFile, "14"});
 		try (AsciiInputStream input = new AsciiInputStream(inputFile); AsciiInputStream output = new AsciiInputStream(outputFile)) {
 			for (int i = 0; i < 14; i++)
 				assertEquals(input.readLine(), output.readLine());
@@ -51,7 +51,7 @@ public class DeleteLinesTest {
 		} catch (IOException e) {
 			fail();
 		}
-		DeleteLines.main(new String[] {"DeleteLines", inputFile, outputFile, "21"});
+		DeleteLines.main(new String[] {inputFile, outputFile, "21"});
 		try (AsciiInputStream input = new AsciiInputStream(inputFile); AsciiInputStream output = new AsciiInputStream(outputFile)) {
 			assertArrayEquals(input.readAllBytes(), output.readAllBytes());
 		} catch (IOException e) {
@@ -61,14 +61,14 @@ public class DeleteLinesTest {
 	
 	@Test
 	public void deleteLineIntervalTest () {
-		DeleteLines.main(new String[] {"DeleteLines", inputFile, outputFile, "0-3"});
+		DeleteLines.main(new String[] {inputFile, outputFile, "0-3"});
 		try (AsciiInputStream input = new AsciiInputStream(inputFile); AsciiInputStream output = new AsciiInputStream(outputFile)) {
 			input.skipLines(4);
 			assertArrayEquals(input.readAllBytes(), output.readAllBytes());
 		} catch (IOException e) {
 			fail();
 		}
-		DeleteLines.main(new String[] {"DeleteLines", inputFile, outputFile, "7-10"});
+		DeleteLines.main(new String[] {inputFile, outputFile, "7-10"});
 		try (AsciiInputStream input = new AsciiInputStream(inputFile); AsciiInputStream output = new AsciiInputStream(outputFile)) {
 			for (int i = 0; i < 7; i++)
 				assertEquals(input.readLine(), output.readLine());
@@ -77,7 +77,7 @@ public class DeleteLinesTest {
 		} catch (IOException e) {
 			fail();
 		}
-		DeleteLines.main(new String[] {"DeleteLines", inputFile, outputFile, "14-17"});
+		DeleteLines.main(new String[] {inputFile, outputFile, "14-17"});
 		try (AsciiInputStream input = new AsciiInputStream(inputFile); AsciiInputStream output = new AsciiInputStream(outputFile)) {
 			for (int i = 0; i < 14; i++)
 				assertEquals(input.readLine(), output.readLine());
@@ -86,7 +86,7 @@ public class DeleteLinesTest {
 		} catch (IOException e) {
 			fail();
 		}
-		DeleteLines.main(new String[] {"DeleteLines", inputFile, outputFile, "21-24"});
+		DeleteLines.main(new String[] {inputFile, outputFile, "21-24"});
 		try (AsciiInputStream input = new AsciiInputStream(inputFile); AsciiInputStream output = new AsciiInputStream(outputFile)) {
 			assertArrayEquals(input.readAllBytes(), output.readAllBytes());
 		} catch (IOException e) {
@@ -96,7 +96,7 @@ public class DeleteLinesTest {
 	
 	@Test
 	public void multipleArgumentsTest () {
-		DeleteLines.main(new String[] {"DeleteLines", inputFile, outputFile, "0", "5", "10-17"});
+		DeleteLines.main(new String[] {inputFile, outputFile, "0", "5", "10-17"});
 		try (AsciiInputStream input = new AsciiInputStream(inputFile); AsciiInputStream output = new AsciiInputStream(outputFile)) {
 			input.skipLine();
 			for (int i = 1; i < 5; i++)
@@ -109,7 +109,7 @@ public class DeleteLinesTest {
 		} catch (IOException e) {
 			fail();
 		}
-		DeleteLines.main(new String[] {"DeleteLines", inputFile, outputFile, "7", "17-33"});
+		DeleteLines.main(new String[] {inputFile, outputFile, "7", "17-33"});
 		try (AsciiInputStream input = new AsciiInputStream(inputFile); AsciiInputStream output = new AsciiInputStream(outputFile)) {
 			for (int i = 0; i < 7; i++)
 				assertEquals(input.readLine(), output.readLine());
@@ -120,14 +120,14 @@ public class DeleteLinesTest {
 		} catch (IOException e) {
 			fail();
 		}
-		DeleteLines.main(new String[] {"DeleteLines", inputFile, outputFile, "0", "0", "0", "0"});
+		DeleteLines.main(new String[] {inputFile, outputFile, "0", "0", "0", "0"});
 		try (AsciiInputStream input = new AsciiInputStream(inputFile); AsciiInputStream output = new AsciiInputStream(outputFile)) {
 			input.skipLine();
 			assertArrayEquals(input.readAllBytes(), output.readAllBytes());
 		} catch (IOException e) {
 			fail();
 		}
-		DeleteLines.main(new String[] {"DeleteLines", inputFile, outputFile, "7-4", "19-11", "10"});
+		DeleteLines.main(new String[] {inputFile, outputFile, "7-4", "19-11", "10"});
 		try (AsciiInputStream input = new AsciiInputStream(inputFile); AsciiInputStream output = new AsciiInputStream(outputFile)) {
 			for (int i = 0; i < 10; i++)
 				assertEquals(input.readLine(), output.readLine());
