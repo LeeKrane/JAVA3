@@ -4,18 +4,17 @@ import java.io.*;
 
 public class Pipe {
 	public static void main (String[] args) {
-		try (PipedOutputStream pos = new PipedOutputStream()) {
-			CopyLowLevel.copySingleByte(System.in, pos);
-			try (PipedInputStream pis = new PipedInputStream(pos); FileOutputStream fos = new FileOutputStream("res/labors/labor12/pipeOutput")) {
-				CopyLowLevel.copyBuffer(pis, fos, 4);
-			}
+		try {
+			PipedOutputStream pipedOutputStream = new PipedOutputStream();
+			PipedInputStream pipedInputStream = new PipedInputStream(pipedOutputStream);
+			FileOutputStream fileOutputStream = new FileOutputStream("C:\\Data\\IntelliJ\\Projects\\JAVA3\\res\\labors\\labor12\\pipeOutput.txt");
+			copySingleByte(System.in, pipedOutputStream);
+			copyBuffer(pipedInputStream, fileOutputStream, 4);
 		} catch (IOException e) {
-			System.err.println("This is not done yet.");
+			System.err.println(e.getMessage());
 		}
 	}
-}
-
-class CopyLowLevel {
+	
 	static void copySingleByte (InputStream inputStream, OutputStream outputStream) throws IOException {
 		int character;
 		while ((character = inputStream.read()) != -1) {
