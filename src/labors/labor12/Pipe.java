@@ -2,7 +2,21 @@ package labors.labor12;
 
 import java.io.*;
 
+/**
+ * @author LeeKrane
+ */
+
 public class Pipe {
+	/*
+	build project.
+	in command prompt:
+	cd <project-path>\out\production\JAVA3
+	java labors.labor12.Pipe
+	write text.
+	press ctrl+z
+	press ctrl+c
+	 */
+	
 	public static void main (String[] args) {
 		try {
 			PipedOutputStream pipedOutputStream = new PipedOutputStream();
