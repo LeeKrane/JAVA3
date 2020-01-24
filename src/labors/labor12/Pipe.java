@@ -17,9 +17,8 @@ public class Pipe {
 	
 	static void copySingleByte (InputStream inputStream, OutputStream outputStream) throws IOException {
 		int character;
-		while ((character = inputStream.read()) != -1) {
+		while ((character = inputStream.read()) != -1)
 			outputStream.write(character);
-		}
 	}
 	
 	static void copyBuffer (InputStream inputStream, OutputStream outputStream, int size) throws IOException {
