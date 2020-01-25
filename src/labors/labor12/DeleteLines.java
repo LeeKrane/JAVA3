@@ -1,8 +1,7 @@
 package labors.labor12;
 
 import java.io.*;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * @author LeeKrane
@@ -10,67 +9,89 @@ import java.util.TreeSet;
 
 public class DeleteLines {
 	public static void main (String[] args) {
-		Set<Integer> excludedLines = new TreeSet<>();
-		String[] split;
-		for (int i = 2; i < args.length; i++) {
-			if (args[i].matches("\\d+-\\d+")) {
-				split = args[i].split("-");
-				for (int j = Integer.parseInt(split[0]); j <= Integer.parseInt(split[1]); j++)
-					excludedLines.add(j);
-			}
-			else if (args[i].matches("\\d+"))
-				excludedLines.add(Integer.parseInt(args[i]));
-			else
-				wrongInputErrorDisplay();
-			try (AsciiInputStream inputStream = new AsciiInputStream(args[0])) {
-				export(args[1], deleteLines(inputStream, excludedLines));
-			} catch (FileNotFoundException e) {
-				System.err.println("The file " + args[0] + " was not found.");
-			} catch (IOException e) {
-				System.err.println(e.getMessage());
-			}
-		}
+		Set<Integer[]> ranges = new HashSet<>();
 		if (args.length == 2) {
-			try (AsciiInputStream inputStream = new AsciiInputStream(args[0])) {
-				export(args[1], new String(inputStream.readAllBytes()));
+			try (AsciiInputStream is = new AsciiInputStream(args[0])) {
+				export(args[1], new String(is.readAllBytes()));
 			} catch (FileNotFoundException e) {
 				System.err.println("The file " + args[0] + " was not found.");
 			} catch (IOException e) {
-				System.err.println(e.getMessage());
+				System.err.println(e + ": " + e.getMessage());
 			}
+			return;
+		}
+		for (int i = 2; i < args.length; i++) {
+			if (args[i].matches("\\d+-\\d+") || args[i].matches("\\d+")) {
+				if (Integer.parseInt(args[i].split("-")[0]) < (args[i].matches("\\d+-\\d+") ? Integer.parseInt(args[i].split("-")[1]) : Integer.parseInt(args[i].split("-")[0]) + 1))
+					ranges.add(createRange(args[i]));
+			} else errorOutput(1);
+		}
+		try (AsciiInputStream is = new AsciiInputStream(args[0])) {
+			export(args[1], deleteLines(is, ranges));
+		} catch (FileNotFoundException e) {
+			System.err.println("The file " + args[0] + " was not found.");
+		} catch (IOException e) {
+			System.err.println(e + ": " + e.getMessage());
 		}
 	}
 	
-	private static String deleteLines (AsciiInputStream inputStream, Set<Integer> excludedLines) throws IOException {
-		StringBuilder builder = new StringBuilder();
-		for (int i = 0; i <= maxValue(excludedLines); i++) {
-			if (excludedLines.contains(i))
-				inputStream.skipLine();
-			else
-				builder.append(inputStream.readLine());
+	private static Integer[] createRange (String input) {
+		Integer[] range = new Integer[2];
+		if (input.matches("\\d+")) {
+			range[0] = Integer.parseInt(input);
+			range[1] = range[0] + 1;
 		}
-		builder.append(new String(inputStream.readAllBytes()));
+		else if (input.matches("\\d+-\\d+")) {
+			range[0] = Integer.parseInt(input.split("-")[0]);
+			range[1] = Integer.parseInt(input.split("-")[1]) + 1;
+		}
+		else
+			throw new IllegalArgumentException();
+		return range;
+	}
+	
+	private static int maxEnd (Set<Integer[]> ranges) {
+		int max = 0;
+		for (Integer[] range : ranges) {
+			if (range[1] > max)
+				max = range[1];
+		}
+		return max;
+	}
+	
+	private static boolean inRange (int value, Set<Integer[]> ranges) {
+		for (Integer[] range : ranges) {
+			if (inRange(value, range))
+				return true;
+		}
+		return false;
+	}
+	
+	private static boolean inRange (int value, Integer[] range) {
+		return value >= range[0] && value < range[1];
+	}
+	
+	private static String deleteLines (AsciiInputStream is, Set<Integer[]> ranges) throws IOException {
+		StringBuilder builder = new StringBuilder();
+		for (int i = 0; i <= maxEnd(ranges); i++) {
+			if (inRange(i, ranges))
+				is.skipLine();
+			else
+				builder.append(is.readLine());
+		}
+		builder.append(new String(is.readAllBytes()));
 		return builder.toString();
 	}
 	
-	private static void export (String filename, String toExport) throws IOException {
-		try (FileOutputStream outputStream = new FileOutputStream(filename)) {
-			outputStream.write(toExport.getBytes());
+	private static void export (String filename, String output) throws IOException {
+		try (FileOutputStream os = new FileOutputStream(filename)) {
+			os.write(output.getBytes());
 		}
 	}
 	
-	private static int maxValue (Set<Integer> integers) {
-		int maxValue = 0;
-		for (Integer i : integers) {
-			if (i > maxValue)
-				maxValue = i;
-		}
-		return maxValue;
-	}
-	
-	private static void wrongInputErrorDisplay () {
+	private static void errorOutput (int status) {
 		System.err.println("Error: wrong input.\nArguments: <input filename> <output filename> <<startLine-endLine>|<line>>+");
-		System.exit(1);
+		System.exit(status);
 	}
 }
 

@@ -1,21 +1,33 @@
 package labors.labor13;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Queue;
+import java.util.*;
+
+/**
+ * @author LeeKrane
+ */
 
 public class DataStreams {
+	/* instructions:
+	open terminal in project folder
+	java src/labors/labor13/DataStreams.java res/labors/labor13/org.txt res/labors/labor13/bin.bin res/labors/labor13/rec.txt
+	 */
 	public static void main (String[] args) {
+		if (args.length != 3)
+			errorOutput(1, args);
 		try {
-			convertToBinary("res/labors/labor13/input.txt", "res/labors/labor13/output.bin");
+			convertToBinary(args[0], args[1]);
 			Queue<Character> types = new LinkedList<>();
-			Map<String, Queue<Object>> data = readBinary("res/labors/labor13/output.bin", types);
-			reconstructFile("res/labors/labor13/output.txt", data, types);
+			Map<String, Queue<Object>> data = readBinary(args[1], types);
+			reconstructFile(args[2], data, types);
 		} catch (IOException e) {
 			System.err.println(e + ": " + e.getMessage());
 		}
+	}
+	
+	private static void errorOutput (int status, String[] args) {
+		System.err.println("The following arguments are invalid:\n" + Arrays.toString(args) + "\nUse the following statement:\njava DataStreams <original_filename> <binary_filename> <reconstructed_filename>");
+		System.exit(status);
 	}
 	
 	private static void convertToBinary (String inputFilename, String outputFilename) throws IOException {
@@ -37,9 +49,6 @@ public class DataStreams {
 				break;
 			case "false":
 				os.writeChar('f');
-				break;
-			default:
-				throw new IllegalStateException();
 		}
 	}
 	

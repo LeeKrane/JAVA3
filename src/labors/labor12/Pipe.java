@@ -8,13 +8,12 @@ import java.io.*;
 
 public class Pipe {
 	/* instructions:
-	build project,
-	in command prompt:
-	cd <project-path>\out\production\JAVA3
+	build project
+	open terminal in <project-path>\out\production\JAVA3
 	java labors.labor12.Pipe labors\labor12\pipeOutput.txt
-	write text,
-	press ctrl+z,
-	press ctrl+c.
+	write text
+	press ctrl+z
+	press ctrl+c
 	 */
 	public static void main (String[] args) {
 		if (args.length != 1) {

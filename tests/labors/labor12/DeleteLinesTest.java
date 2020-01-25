@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
  */
 
 public class DeleteLinesTest {
-	private static String inputFile = "res/labors/labor12/input.txt";
+	private static String inputFile = "res/labors/labor12/org.txt";
 	private static String outputFile = "res/labors/labor12/output.txt";
 	
 	@Test
