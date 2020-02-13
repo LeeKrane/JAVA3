@@ -38,10 +38,9 @@ public class Country implements Serializable {
 				.collect(Collectors.toList()));
 	}
 	
+	@SuppressWarnings("StatementWithEmptyBody")
 	private static List<Country> nullRepellent (List<Country> countries) {
-		// while (countries.remove(null)); // creates warning
-		while (countries.contains(null))
-			countries.remove(null);
+		while (countries.remove(null));
 		return countries;
 	}
 	
