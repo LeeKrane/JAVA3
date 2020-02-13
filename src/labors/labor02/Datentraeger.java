@@ -58,6 +58,7 @@ public class Datentraeger {
 	}
 }
 
+@SuppressWarnings({"SameParameterValue", "CanBeFinal"})
 class CD extends Datentraeger {
 	private boolean readOnly;
 	
@@ -72,6 +73,7 @@ class CD extends Datentraeger {
 	}
 }
 
+@SuppressWarnings({"SameParameterValue", "CanBeFinal"})
 class DVD extends Datentraeger {
 	private boolean readOnly;
 	private char plusOderMinus;

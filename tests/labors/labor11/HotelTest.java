@@ -10,6 +10,7 @@ import java.util.*;
 
 import static org.junit.Assert.*;
 
+@SuppressWarnings("CanBeFinal")
 public class HotelTest {
     private static String resourcePath = "res/labors/labor11/";
     

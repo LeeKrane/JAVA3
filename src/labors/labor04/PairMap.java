@@ -4,6 +4,7 @@ package labors.labor04;
  * @author LeeKrane
  */
 
+@SuppressWarnings("CanBeFinal")
 public class PairMap<K, V> implements IMap<K, V> {
 	private java.util.LinkedList<Pair<K, V>> list = new java.util.LinkedList<>();
 	

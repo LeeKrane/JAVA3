@@ -9,6 +9,7 @@ import java.util.*;
  * @author LeeKrane
  */
 
+@SuppressWarnings("SameParameterValue")
 public class RAF {
 	// 1 RandomAccessFile
 	static void createFile (String filePath, double... values) throws IOException {

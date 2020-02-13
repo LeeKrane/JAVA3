@@ -7,6 +7,7 @@ import java.util.*;
  * @author LeeKrane
  */
 
+@SuppressWarnings("SameParameterValue")
 public class DataStreams {
 	/* instructions:
 	open terminal in project folder
@@ -106,6 +107,7 @@ public class DataStreams {
 		}
 	}
 	
+	@SuppressWarnings("ConstantConditions")
 	private static void reconstructFile (String filename, Map<String, Queue<Object>> data, Queue<Character> types) throws IOException {
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
 			while (!types.isEmpty()) {

@@ -6,6 +6,7 @@ import java.io.*;
  * @author LeeKrane
  */
 
+@SuppressWarnings("SameParameterValue")
 public class Pipe {
 	/* instructions:
 	build project

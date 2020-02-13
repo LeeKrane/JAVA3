@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
  * @author LeeKrane
  */
 
+@SuppressWarnings({"SameParameterValue", "unused", "CanBeFinal"})
 public class WasserstandAnalyse {
 	private Map<LocalDateTime, Integer> levels;
 	private static DateTimeFormatter df = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
@@ -42,8 +43,8 @@ public class WasserstandAnalyse {
 		System.out.println("Durchschnittlicher Wasserstand aller Einträge: " + wa.average(startingDate, actualEndingDate) + '\n'); // 381.5938210992696
 	}
 	
-	private static Map<LocalDateTime, Integer> readFromFile (String filePath) throws IOException {
-		return Files.lines(Paths.get(filePath))
+	private static Map<LocalDateTime, Integer> readFromFile (String filename) throws IOException {
+		return Files.lines(Paths.get(filename))
 				.map(Pattern.compile("((\\d{2}\\.){2}\\d{4}\\s\\d{2}:\\d{2})\\s((\\d{2}\\.){2}\\d{4}\\s\\d{2}:\\d{2})\\s(\\d{3})")::matcher)
 				.filter(Matcher::find)
 				.collect(Collectors.toMap(ldt -> LocalDateTime.parse(ldt.group(1), df), i -> Integer.parseInt(i.group(5))));
@@ -74,6 +75,7 @@ public class WasserstandAnalyse {
 		for (int value : subLevels.values()) {
 			if (value > maxValue) maxValue = value;
 		}
+		// noinspection rawtypes
 		for (Map.Entry mapEntry : subLevels.entrySet()) {
 			if ((int) mapEntry.getValue() == maxValue)
 				maxValueDates.put((LocalDateTime) mapEntry.getKey(), (int) mapEntry.getValue());

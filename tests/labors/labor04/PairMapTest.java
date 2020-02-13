@@ -17,6 +17,7 @@ import static org.junit.Assert.*;
  *
  * @author reio
  */
+@SuppressWarnings("EmptyMethod")
 public class PairMapTest
 {
 	
@@ -61,6 +62,7 @@ public class PairMapTest
 		PairMap<Integer, String> map = new PairMap<>();
 		String ret = map.put(1, "Eins");
 		assertNull(ret);
+		// noinspection UnusedAssignment
 		ret = map.put(null, "Zwei");
 	}
 	

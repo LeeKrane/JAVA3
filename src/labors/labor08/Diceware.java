@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
  */
 
 
+@SuppressWarnings({"SameParameterValue", "unused"})
 public class Diceware {
 	public static void main (String[] args) {
 		try {
@@ -54,8 +55,8 @@ public class Diceware {
 		return returnString.toString();
 	}
 	
-	private static Map<Integer, String> getDiceWarePairs (String filePath) throws IOException {
-		return Files.lines(Paths.get(filePath))
+	private static Map<Integer, String> getDiceWarePairs (String filename) throws IOException {
+		return Files.lines(Paths.get(filename))
 				.map(Pattern.compile("(\\d{5})\\s(.+)")::matcher)
 				.filter(Matcher::find)
 				.collect(Collectors.toMap(i -> Integer.parseInt(i.group(1)), s -> s.group(2)));

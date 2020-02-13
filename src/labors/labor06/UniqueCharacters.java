@@ -7,6 +7,7 @@ import java.util.Map;
  * @author LeeKrane
  */
 
+@SuppressWarnings("CanBeFinal")
 public class UniqueCharacters {
 	private static Map<String, Long> checkedStrings = new HashMap<>();
 	

@@ -4,6 +4,7 @@ package labors.labor04;
  * @author LeeKrane
  */
 
+@SuppressWarnings("unused")
 public class Pair<X, Y> {
 	private X first;
 	private Y second;

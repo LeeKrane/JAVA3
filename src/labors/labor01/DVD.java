@@ -4,6 +4,7 @@ package labors.labor01;
  * @author LeeKrane
  */
 
+@SuppressWarnings({"SameParameterValue", "unused"})
 public class DVD {
 	private String titel;
 	private double preis;

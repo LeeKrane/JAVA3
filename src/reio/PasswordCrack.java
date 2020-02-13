@@ -6,6 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.time.Duration;
 import java.time.Instant;
 
+@SuppressWarnings({"SameParameterValue", "CanBeFinal"})
 public class PasswordCrack {
 	private static char[] specialCharacters = new char[] {'!', '$', '%', '&', '/', '(', ')', '=', '?'};
 	
@@ -33,10 +34,10 @@ public class PasswordCrack {
 		initiateBruteForce("source/reio/words.txt", "b1435b304bf50e05853947ea8c0b5f19ac26bf5f8c8fe5f927b4a744c2443232");
 	}
 	
-	private static void initiateBruteForce (String filePath, String hashcode) {
+	private static void initiateBruteForce (String filename, String hashcode) {
 		try {
 			Instant start = Instant.now();
-			System.out.println(bruteForce(filePath, hashcode));
+			System.out.println(bruteForce(filename, hashcode));
 			Instant end = Instant.now();
 			System.out.format("time in milliseconds: %d\n", Duration.between(start, end).toMillis());
 		} catch (IOException | NoSuchAlgorithmException e) {

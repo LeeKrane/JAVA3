@@ -7,6 +7,7 @@ import java.util.*;
  * @author LeeKrane
  */
 
+@SuppressWarnings("SameParameterValue")
 public class DeleteLines {
 	public static void main (String[] args) {
 		Set<Integer[]> ranges = new HashSet<>();

@@ -9,6 +9,7 @@ import java.util.List;
  * @author LeeKrane
  */
 
+@SuppressWarnings("SameParameterValue")
 public class Euler539easier {
 	public static void main (String[] args) {
 		System.out.println("getP(1) -> " + getP(1));

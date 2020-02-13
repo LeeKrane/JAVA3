@@ -1,5 +1,6 @@
 package labors.labor04;
 
+@SuppressWarnings("unused")
 public interface IMap<K, V> {
 	/**
 	 * Fuegt ein neues Schluessel-Wertepaar dieser Map hinzu.

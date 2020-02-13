@@ -6,6 +6,7 @@ import java.util.*;
  * @author LeeKrane
  */
 
+@SuppressWarnings("CanBeFinal")
 public class Student implements Comparable<Student> {
 	private String name;
 	private String vorname;

@@ -10,6 +10,7 @@ import static org.junit.Assert.*;
  * @author LeeKrane
  */
 
+@SuppressWarnings("CanBeFinal")
 public class DeleteLinesTest {
 	private static String inputFile = "res/labors/labor12/org.txt";
 	private static String outputFile = "res/labors/labor12/output.txt";

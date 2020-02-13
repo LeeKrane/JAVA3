@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
  * @author LeeKrane
  */
 
+@SuppressWarnings({"SameParameterValue", "unused", "CanBeFinal"})
 public class Shares implements Comparable<Shares> {
 	private String companyName;
 	private double priceRatingRatio;
@@ -57,8 +58,8 @@ public class Shares implements Comparable<Shares> {
 			companyName = companyName.substring(1, companyName.length() - 1);
 	}
 	
-	private static Queue<Shares> readFromCSV (String filePath) throws IOException {
-		return Files.lines(Paths.get(filePath))
+	private static Queue<Shares> readFromCSV (String filename) throws IOException {
+		return Files.lines(Paths.get(filename))
 				.filter(line -> line.matches("(.+),(\\d),(\\d+)"))
 				.map(Shares::new)
 				.collect(Collectors.toCollection(PriorityQueue::new));

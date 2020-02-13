@@ -14,6 +14,7 @@ import java.util.stream.Stream;
  * @author LeeKrane
  */
 
+@SuppressWarnings("CanBeFinal")
 public class Schueler implements Comparable<Schueler> {
 	private String klasse;
 	private String name;
@@ -91,11 +92,12 @@ public class Schueler implements Comparable<Schueler> {
 	}
 }
 
+@SuppressWarnings("SameParameterValue")
 class SchuelerVerwaltung {
 	private Collection<Schueler> schuelerCollection;
 	
-	SchuelerVerwaltung (String filePath) throws IOException {
-		schuelerCollection = Files.lines(Paths.get(filePath))
+	SchuelerVerwaltung (String filename) throws IOException {
+		schuelerCollection = Files.lines(Paths.get(filename))
 				.skip(1)
 				.map(Schueler::new)
 				.collect(Collectors.toCollection(TreeSet::new));

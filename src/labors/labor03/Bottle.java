@@ -15,6 +15,7 @@ public class Bottle<T extends Drink> {
 		this.content = content;
 	}
 	
+	@SuppressWarnings("UnusedReturnValue")
 	private T empty () {
 		T old = content;
 		content = null;
@@ -46,6 +47,7 @@ public class Bottle<T extends Drink> {
 abstract class Drink {
 }
 
+@SuppressWarnings({"SameParameterValue", "unused", "CanBeFinal"})
 class Beer extends Drink {
 	private String brewery;
 	
@@ -63,6 +65,7 @@ class Beer extends Drink {
 	}
 }
 
+@SuppressWarnings({"unused", "CanBeFinal"})
 abstract class Wine extends Drink {
 	private String region;
 	
@@ -80,12 +83,14 @@ abstract class Wine extends Drink {
 	}
 }
 
+@SuppressWarnings("SameParameterValue")
 class WhiteWine extends Wine {
 	WhiteWine (String region) {
 		super(region);
 	}
 }
 
+@SuppressWarnings("SameParameterValue")
 class RedWine extends Wine {
 	RedWine (String region) {
 		super(region);
