@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CountryTest {
 	@Test
-	public void serializationTest () {
+	public void serializationTest () throws IOException, ClassNotFoundException {
 		try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
 			 ObjectOutputStream os = new ObjectOutputStream(bos)) {
 			List<Country> expected = Country.readFromCSV("res/labors/labor14/countries.csv");
@@ -20,8 +20,6 @@ public class CountryTest {
 				assertEquals(expected, actual);
 				System.out.println(actual);
 			}
-		} catch (IOException | ClassNotFoundException e) {
-			System.err.println(e + ": " + e.getMessage());
 		}
 	}
 	

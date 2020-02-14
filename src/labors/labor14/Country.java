@@ -26,7 +26,7 @@ public class Country implements Serializable {
 	}
 	
 	static List<Country> readFromCSV (@SuppressWarnings("SameParameterValue") String filename) throws IOException {
-		return nullRepellent(Files.lines(Paths.get(filename))
+		return Files.lines(Paths.get(filename))
 				.map(line -> {
 					if (line.matches("(\\w+;){3}\\d+;\\d+")) {
 						String[] split = line.split(";");
@@ -35,13 +35,8 @@ public class Country implements Serializable {
 					System.err.println("invalid line: " + line);
 					return null;
 				})
-				.collect(Collectors.toList()));
-	}
-	
-	@SuppressWarnings("StatementWithEmptyBody")
-	private static List<Country> nullRepellent (List<Country> countries) {
-		while (countries.remove(null));
-		return countries;
+				.filter(Objects::nonNull)
+				.collect(Collectors.toList());
 	}
 	
 	@Override
