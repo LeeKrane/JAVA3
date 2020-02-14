@@ -20,16 +20,20 @@ public class Steps {
 			while (!stepRequirements.isEmpty()) {
 				checkAcceptance(stepRequirements, acceptedSteps, orderedSteps);
 				System.out.println("ACCEPTED: " + acceptedSteps);
-				for (char c : acceptedSteps) {
-					orderedSteps.add(c);
-					acceptedSteps.remove(c);
-					break;
-				}
+				addStep(acceptedSteps, orderedSteps);
 				System.out.println("ORDERED: " + orderedSteps);
 			}
 			finalOrderOutput(orderedSteps);
 		} catch (IOException e) {
 			System.err.println(e + ": " + e.getMessage());
+		}
+	}
+	
+	private static void addStep (Set<Character> acceptedSteps, List<Character> orderedSteps) {
+		for (char c : acceptedSteps) {
+			orderedSteps.add(c);
+			acceptedSteps.remove(c);
+			break;
 		}
 	}
 	
