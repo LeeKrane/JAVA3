@@ -10,42 +10,42 @@ class AccountTest {
 	
 	@BeforeEach
 	void createAccount () {
-		account = new Account(42, 69, "Test");
+		account = new Account(42, 69, "JoeDoe");
 	}
 	
 	@Test
-	void constructor_ownerNull_NullPointerException () {
+	void constructor_ownerNull_throwsNullPointerException () {
 		assertThrows(NullPointerException.class, () -> new Account(42, 69, null));
 	}
 	
 	@Test
-	void constructor_accountNumberLessThan1_IllegalArgumentException () {
-		assertThrows(IllegalArgumentException.class, () -> new Account(0, 69, "Test"));
+	void constructor_accountNumberLessThan1_throwsIllegalArgumentException () {
+		assertThrows(IllegalArgumentException.class, () -> new Account(0, 69, "JoeDoe"));
 	}
 	
 	@Test
-	void deposit_amountNegative_IllegalArgumentException () {
+	void deposit_amountNegative_throwsIllegalArgumentException () {
 		assertThrows(IllegalArgumentException.class, () -> account.deposit(-42));
 	}
 	
 	@Test
-	void withdraw_amountNegative_IllegalArgumentException () {
+	void withdraw_amountNegative_throwsIllegalArgumentException () {
 		assertThrows(IllegalArgumentException.class, () -> account.withdraw(-42, 69));
 	}
 	
 	@Test
-	void withdraw_feeNegative_IllegalArgumentException () {
+	void withdraw_feeNegative_throwsIllegalArgumentException () {
 		assertThrows(IllegalArgumentException.class, () -> account.withdraw(42, -69));
 	}
 	
 	@Test
-	void withdraw_amountAndFeeGreaterThanBalance_IllegalArgumentException () {
+	void withdraw_amountAndFeeGreaterThanBalance_throwsIllegalArgumentException () {
 		assertThrows(IllegalArgumentException.class, () -> account.withdraw(42, 69));
 	}
 	
 	@Test
-	void constructor_validValues_newAccountObject () {
-		new Account(42, 69, "Test");
+	void constructor_validValues_objectCreated () {
+		assertDoesNotThrow(() -> new Account(42, 69, "JoeDoe"));
 	}
 	
 	@Test
