@@ -3,102 +3,84 @@ package labors.bonus;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Steps {
 	public static void main (String[] args) {
-		List<Pair> unlocks = new ArrayList<>();
-		List<Character> available = new ArrayList<>();
-		List<Character> order = new ArrayList<>();
-		String line, nextLine = null;
-		try (BufferedReader reader = new BufferedReader(new FileReader("res/labors/bonus/test.txt"))) {
-			if (reader.ready())
-				nextLine = reader.readLine();
-			while (reader.ready()) {
-				line = nextLine;
-				nextLine = reader.readLine();
-				Pair p = new Pair(line.charAt(36), line.charAt(5));
-				if (unlocks.contains(p)) {
-					for (Pair pair : unlocks) {
-						if (pair.equals(p))
-							pair.add(p.required);
-					}
-				}
-				else
-					unlocks.add(p);
+		Map<Character, Set<Character>> stepRequirements = new HashMap<>();
+		Set<Character> acceptedSteps = new TreeSet<>();
+		List<Character> orderedSteps = new ArrayList<>();
+		
+		try (BufferedReader reader = new BufferedReader(new FileReader("res/labors/bonus/steps.txt"))) {
+			getRequirements(stepRequirements, reader);
+			findFirstAcceptedSteps(stepRequirements, acceptedSteps);
+			System.out.println("REQUIREMENTS: " + stepRequirements);
+			
+			while (!stepRequirements.isEmpty()) {
+				checkAcceptance(stepRequirements, acceptedSteps, orderedSteps);
+				System.out.println("ACCEPTED: " + acceptedSteps);
+				addStep(acceptedSteps, orderedSteps);
+				System.out.println("ORDERED: " + orderedSteps);
 			}
-			System.out.println(unlocks);
-			order.add(unlocks.get(0).required.get(0));
-			while (unlocks.size() > 0) {
-				for (int i = 0; i < unlocks.size(); i++) {
-					if (contains(order, unlocks.get(i).required)) {
-						available.add(unlocks.get(i).unlocked);
-						unlocks.remove(i);
-						i--;
-					}
-				}
-				available.sort(Comparator.naturalOrder());
-				order.add(available.get(0));
-				available.remove(0);
-			}
-			output(order);
+			finalOrderOutput(orderedSteps);
 		} catch (IOException e) {
 			System.err.println(e + ": " + e.getMessage());
-		} catch (IndexOutOfBoundsException e) {
-			output(order);
 		}
 	}
 	
-	private static void output (List<Character> order) {
+	private static void addStep (Set<Character> acceptedSteps, List<Character> orderedSteps) {
+		for (char c : acceptedSteps) {
+			orderedSteps.add(c);
+			acceptedSteps.remove(c);
+			break;
+		}
+	}
+	
+	private static void finalOrderOutput (List<Character> orderedSteps) {
 		StringBuilder builder = new StringBuilder();
-		for (char c : order)
+		for (char c : orderedSteps)
 			builder.append(c);
-		System.out.println(builder.toString());
+		System.out.println("FINAL ORDER: " + builder.toString());
 	}
 	
-	private static boolean contains (List<Character> order, List<Character> required) {
-		int containsCount = 0;
-		for (char c : required) {
-			if (order.contains(c))
-				containsCount++;
+	private static void findFirstAcceptedSteps (Map<Character, Set<Character>> stepRequirements, Set<Character> acceptedSteps) {
+		for (Set<Character> requirements : stepRequirements.values()) {
+			for (char requirement : requirements) {
+				if (!stepRequirements.containsKey(requirement))
+					acceptedSteps.add(requirement);
+			}
 		}
-		return containsCount == required.size();
-	}
-}
-
-class Pair {
-	List<Character> required;
-	char unlocked;
-	
-	public Pair (char unlocked, char... required) {
-		this.required = new ArrayList<>();
-		this.unlocked = unlocked;
-		for (char c : required)
-			this.required.add(c);
 	}
 	
-	void add (List<Character> c) {
-		required.addAll(c);
+	private static void checkAcceptance (Map<Character, Set<Character>> stepRequirements, Set<Character> acceptedSteps, List<Character> orderedSteps) {
+		Set<Character> toRemove = new HashSet<>();
+		for (char key : stepRequirements.keySet()) {
+			if (orderedSteps.containsAll(stepRequirements.get(key))) {
+				acceptedSteps.add(key);
+				toRemove.add(key);
+			}
+		}
+		for (char remove : toRemove)
+			stepRequirements.remove(remove);
 	}
 	
-	@Override
-	public boolean equals (Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		Pair pair = (Pair) o;
-		return unlocked == pair.unlocked;
-	}
-	
-	@Override
-	public int hashCode () {
-		return Objects.hash(unlocked);
-	}
-	
-	@Override
-	public String toString () {
-		return "{" + required + "=" + unlocked + "}";
+	private static void getRequirements (Map<Character, Set<Character>> stepRequirements, BufferedReader reader) throws IOException {
+		String line;
+		char step;
+		char requirement;
+		
+		while (reader.ready()) {
+			line = reader.readLine();
+			step = line.charAt(36);
+			requirement = line.charAt(5);
+			
+			if (stepRequirements.containsKey(step))
+				stepRequirements.get(step).add(requirement);
+			else {
+				Set<Character> currentRequirements = new HashSet<>();
+				currentRequirements.add(requirement);
+				stepRequirements.put(step, currentRequirements);
+			}
+		}
 	}
 }
