@@ -6,12 +6,9 @@ package labors.labor04;
  * and open the template in the editor.
  */
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  *
@@ -24,19 +21,19 @@ public class PairMapTest
 	public PairMapTest () {
 	}
 	
-	@BeforeClass
+	@BeforeAll
 	public static void setUpClass() {
 	}
 	
-	@AfterClass
+	@AfterAll
 	public static void tearDownClass() {
 	}
 	
-	@Before
+	@BeforeEach
 	public void setUp() {
 	}
 	
-	@After
+	@AfterEach
 	public void tearDown() {
 	}
 	
@@ -56,14 +53,13 @@ public class PairMapTest
 		System.out.println(map);
 	}
 	
-	@Test(expected = NullPointerException.class)
+	@Test
 	public void testPut2() {
 		System.out.println("testPut2");
 		PairMap<Integer, String> map = new PairMap<>();
 		String ret = map.put(1, "Eins");
 		assertNull(ret);
-		// noinspection UnusedAssignment
-		ret = map.put(null, "Zwei");
+		assertThrows(NullPointerException.class, () -> map.put(null, "Zwei"));
 	}
 	
 	@Test

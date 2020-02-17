@@ -1,13 +1,13 @@
 package labors.labor09;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class SchuelerVerwaltungTest {
     
@@ -22,7 +22,7 @@ public class SchuelerVerwaltungTest {
         }
     }
 
-    @Before
+    @BeforeEach
     public void setUp() {
         andrae = Schueler.makeSchueler("1AHIF;Andrae;Franz Eduardo;m;09.12.2001;röm.-kath.");
         riegler = Schueler.makeSchueler("1AHIF;Riegler;Marvin;m;01.09.2002;evang. A.B.");
