@@ -5,6 +5,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * @author LeeKrane
+ */
+
 public class Steps {
 	public static void main (String[] args) {
 		Map<Character, Set<Character>> stepRequirements = new HashMap<>();
