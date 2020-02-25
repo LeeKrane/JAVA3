@@ -1,26 +1,26 @@
 package labors.labor09;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeParseException;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class SchuelerTest {
     
-    @Test(expected = DateTimeParseException.class)
+    @Test
     public void constructor_illegalMonth_exception () {
-        Schueler.makeSchueler("1AHIF;Anders;Franz Eduardo;m;29.13.1998;röm.-kath.");
+        assertThrows(DateTimeParseException.class, () -> Schueler.makeSchueler("1AHIF;Anders;Franz Eduardo;m;29.13.1998;röm.-kath."));
     }
     
     /**
      * DateTimeFormatter versucht standardgemäß mit Resolverstyle.SMART falsche Daten zu korrigieren
      */
-    @Test(expected = DateTimeParseException.class)
+    @Test
     public void constructor_noLeapYear_exception () {
-        Schueler.makeSchueler("1AHIF;Anders;Franz Eduardo;m;29.02.1998;röm.-kath.");
+        assertThrows(DateTimeParseException.class, () -> Schueler.makeSchueler("1AHIF;Anders;Franz Eduardo;m;29.02.1998;röm.-kath."));
     }
 
     @Test

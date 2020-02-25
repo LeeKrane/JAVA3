@@ -1,7 +1,7 @@
 package labors.labor10;
 
-import org.junit.AfterClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Test;
 
 import java.io.DataInputStream;
 import java.io.FileInputStream;
@@ -13,12 +13,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class RAFTest {
 	private static final String resourcePath = "res/labors/labor10/";
 	
-	@AfterClass
+	@AfterAll
 	public static void deleteTestFiles () throws IOException {
 		Files.deleteIfExists(Paths.get(resourcePath + "test.dat"));
 	}

@@ -4,6 +4,10 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 
+/**
+ * @author LeeKrane
+ */
+
 public class InterProcessCommunication {
 	public static void main (String[] args) {
 		Process process = null;

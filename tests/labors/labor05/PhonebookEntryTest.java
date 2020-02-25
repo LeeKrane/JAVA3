@@ -1,14 +1,14 @@
 package labors.labor05;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author LeeKrane
@@ -16,59 +16,23 @@ import static org.junit.Assert.fail;
 
 public class PhonebookEntryTest {
 	@Test
-	public void sortingTest () {
-		List<PhonebookEntry> entries = new ArrayList<>();
-		ArrayList<PhonebookEntry> entriesSorted = new ArrayList<>();
-		
-		entries.add(new PhonebookEntry("+431112", "Tobi"));
-		entries.add(new PhonebookEntry("01112", "Paul"));
-		entries.add(new PhonebookEntry("01113", "Karli"));
-		entries.add(new PhonebookEntry("+431111", "Krane"));
-		entries.add(new PhonebookEntry("01112", "Steffan"));
-		
-		entriesSorted.add(new PhonebookEntry("+431111", "Krane"));
-		entriesSorted.add(new PhonebookEntry("+431112", "Tobi"));
-		entriesSorted.add(new PhonebookEntry("01112", "Paul"));
-		entriesSorted.add(new PhonebookEntry("01112", "Steffan"));
-		entriesSorted.add(new PhonebookEntry("01113", "Karli"));
-		
-		List<PhonebookEntry> entriesSortedReverse = (ArrayList<PhonebookEntry>) entriesSorted.clone();
-		entriesSortedReverse.sort(Collections.reverseOrder());
-		
+	void compareTo_sortingUnsortedList_correctlySortedList () {
+		List<PhonebookEntry> entries = new ArrayList<>(List.of(new PhonebookEntry("+431112", "JoeDoe"), new PhonebookEntry("01112", "JaneDoe"), new PhonebookEntry("01113", "JoeDane"), new PhonebookEntry("+431111", "JaneDane"), new PhonebookEntry("01112", "JoeJane")));
+		List<PhonebookEntry> entriesSorted = List.of(new PhonebookEntry("+431111", "JaneDane"), new PhonebookEntry("+431112", "JoeDoe"), new PhonebookEntry("01112", "JaneDoe"), new PhonebookEntry("01112", "JoeJane"), new PhonebookEntry("01113", "JoeDane"));
+
 		Collections.sort(entries);
 		assertEquals(entriesSorted, entries);
-		System.out.println(entries);
-		
-		entries.sort(Collections.reverseOrder());
-		assertEquals(entriesSortedReverse, entries);
-		System.out.println(entries);
-		
-		entries.add(new PhonebookEntry("01115", "Steffan"));
-		entries.add(new PhonebookEntry("01113", "Steffan"));
-		entries.sort(Comparator.comparing(PhonebookEntry::getName).thenComparing(Comparator.comparing(PhonebookEntry::getNumber).reversed()));
-		System.out.println(entries);
 	}
 	
-	@Test
-	public void initializationHandlingTest () {
-		try {
-			new PhonebookEntry("+431234567", "correct");
-			new PhonebookEntry("+45872365", "correct");
-			new PhonebookEntry("+12473488732", "correct");
-			new PhonebookEntry("02386578324", "correct");
-			new PhonebookEntry("054263874", "correct");
-			new PhonebookEntry("000003486", "correct");
-		} catch (IllegalArgumentException iae) {
-			fail();
-		}
-		try {
-			new PhonebookEntry("+0687235", "incorrect");
-			fail();
-		} catch (IllegalArgumentException ignored) {
-		}
-		try {
-			new PhonebookEntry("2343543634", "incorrect");
-		} catch (IllegalArgumentException ignored) {
-		}
+	@ParameterizedTest
+	@ValueSource(strings = {"+431234567", "+45872365", "+12473488732", "02386578324", "054263874", "000003486"})
+	void constructor_validValues_objectCreated (String argument) {
+		assertDoesNotThrow(() -> new PhonebookEntry(argument, "JoeDoe"));
+	}
+	
+	@ParameterizedTest
+	@ValueSource(strings = {"+0687235", "2343543634"})
+	void constructor_invalidValues_throwsIllegalArgumentException (String argument) {
+		assertThrows(IllegalArgumentException.class, () -> new PhonebookEntry(argument, "JoeDoe"));
 	}
 }

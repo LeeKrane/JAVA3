@@ -10,6 +10,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * @author LeeKrane
+ */
+
 public class Country implements Serializable {
 	private String shortMark;
 	private String name;
