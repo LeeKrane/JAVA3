@@ -4,10 +4,7 @@ import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Student implements Serializable {
 	private String name;
@@ -15,7 +12,6 @@ public class Student implements Serializable {
 	private transient Integer recognition;
 	private transient Long socialSecurityNumber;
 	private static Set<Integer> recognitions = new HashSet<>();
-	private static final String CHARACTERS = "0123456789";
 	private static final int KEY = 5;
 	
 	public Student () {}
@@ -66,47 +62,55 @@ public class Student implements Serializable {
 		
 		try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
 			 ObjectOutputStream os = new ObjectOutputStream(bos)) {
-			for (Student student : students) {
+			for (Student student : students)
 				os.writeObject(student);
-				os.writeUTF(caesar(Integer.toString(student.recognition), KEY));
-				os.writeUTF(caesar(Long.toString(student.socialSecurityNumber), KEY));
-			}
-			// TODO: fix writing and reading
-			try (ObjectInputStream is = new ObjectInputStream(new ByteArrayInputStream(bos.toByteArray()))) {
-				System.out.println(is.available());
-				while (is.available() > 0) {
+			
+			try (ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
+				 ObjectInputStream is = new ObjectInputStream(bis)) {
+				while (bis.available() > 0) {
 					Student s = (Student) is.readObject();
-					s.setRecognition(Integer.parseInt(caesar(is.readUTF(), -KEY)));
-					s.setSocialSecurityNumber(Long.parseLong(caesar(is.readUTF(), -KEY)));
 					reconstructed.add(s);
-					System.out.println(s);
 				}
 			}
+			
+			System.out.println(students);
+			System.out.println(reconstructed);
 		} catch (IOException | ClassNotFoundException e) {
 			System.err.println(e + ": " + e.getMessage());
 		}
-		
-		System.out.println(students);
-		System.out.println(reconstructed);
 	}
 	
 	private static String caesar (String e, int key) {
 		StringBuilder builder = new StringBuilder();
 		for (char c : e.toCharArray()) {
-			c += key;
-			if (c < '0') c += 10;
-			else if (c > '9') c -= 10;
+			if (c >= 'A' && c <= 'J') {
+				c += key;
+				if (c < 'A') c += 10;
+				else if (c > 'J') c -= 10;
+				c += '0' - 'A';
+			} else {
+				c += key;
+				if (c < '0') c += 10;
+				else if (c > '9') c -= 10;
+				c += 'A' - '0';
+			}
 			builder.append(c);
 		}
 		return builder.toString();
 	}
 	
-	public void setRecognition (Integer recognition) {
-		this.recognition = recognition;
+	private void writeObject (ObjectOutputStream os) throws IOException {
+		os.writeUTF(name);
+		os.writeUTF(firstName);
+		os.writeUTF(caesar(Integer.toString(recognition), KEY));
+		os.writeUTF(caesar(Long.toString(socialSecurityNumber), KEY));
 	}
 	
-	public void setSocialSecurityNumber (Long socialSecurityNumber) {
-		this.socialSecurityNumber = socialSecurityNumber;
+	private void readObject (ObjectInputStream is) throws IOException {
+		name = is.readUTF();
+		firstName = is.readUTF();
+		recognition = Integer.parseInt(caesar(is.readUTF(), -KEY));
+		socialSecurityNumber = Long.parseLong(caesar(is.readUTF(), -KEY));
 	}
 	
 	@Override
